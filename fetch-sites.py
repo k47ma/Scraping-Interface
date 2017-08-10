@@ -52,8 +52,6 @@ for task in tasks:
             file.write(link + "\n")
         ind += 1
 
-
-
     close = browser.find_element_by_xpath("//div[@class='header-close']")
     close.click()
 

@@ -49,6 +49,18 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0):
     if progress_var:
         progress_var.set(progress_var.get() + setup_step)
 
+    # check if the new site needs login
+    new_test = get_soup(new_url)
+    if new_test:
+        title = new_test.find("title")
+        if title and title.get_text().strip() == "Login":
+            entry_print("New site needs login. Please use login mode to check this site!\n")
+            return -1
+
+    setup_step = step * 0.01
+    if progress_var:
+        progress_var.set(progress_var.get() + setup_step)
+
     # get the subpages of old and new sites
     sites = get_sites(old_url)
     old_blog = get_blog_site(old_url)
@@ -81,7 +93,7 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0):
         progress_var.set(progress_var.get() + setup_step)
 
     # calculate the step for each page
-    step *= 0.97
+    step *= 0.96
     if blog_exists:
         page_step = step / 2 / (len(sites) + 1)
     else:
