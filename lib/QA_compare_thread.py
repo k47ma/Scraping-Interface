@@ -151,11 +151,17 @@ def compare_site_thread_csv(file, progress_var=None, step=100.0):
     f.close()
 
 
-# compare everything for non homepage and non blog pages
+# compare everything for normal pages
 def compare_page(old_url, new_url, browser=None, progress_var=None, step=1.0):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         return
+
+    # deal with urls that exceeds 50 characters
+    new_list = new_url.split("/")
+    if len(new_list[-1]) > 50:
+        new_list[-1] = new_list[-1][:50]
+    new_url = "".join(new_list)
 
     old_soup = get_soup(old_url)
     new_soup = get_soup(new_url, browser=browser)
