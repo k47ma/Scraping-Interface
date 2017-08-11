@@ -255,6 +255,7 @@ def check_homepage_link(old_soup, new_soup, old_url, new_url, browser=None):
                         detail.write("Old URL: " + old_url + "\n")
                         detail.write("New URL: " + new_url + "\n")
                         publish_pass = False
+                        page_pass = False
                     entry_print("Old link: " + old_link)
                     entry_print("New link: " + new_link)
                     detail.write("Old link: " + old_link + "\n")
@@ -269,6 +270,7 @@ def check_homepage_link(old_soup, new_soup, old_url, new_url, browser=None):
                     detail.write("Old URL: " + old_url + "\n")
                     detail.write("New URL: " + new_url + "\n")
                     publish_pass = False
+                    page_pass = False
                 entry_print("Old name: " + old_name)
                 entry_print("New name: " + new_name)
                 detail.write("Old name: " + old_name + "\n")

@@ -159,9 +159,9 @@ def compare_page(old_url, new_url, browser=None, progress_var=None, step=1.0):
 
     # deal with urls that exceeds 50 characters
     new_list = new_url.split("/")
-    if len(new_list[-1]) > 50:
+    if new_list[-1].find("televox.west.com") == -1 and len(new_list[-1]) > 50:
         new_list[-1] = new_list[-1][:50]
-    new_url = "".join(new_list)
+    new_url = "/".join(new_list)
 
     old_soup = get_soup(old_url)
     new_soup = get_soup(new_url, browser=browser)
