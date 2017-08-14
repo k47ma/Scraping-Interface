@@ -144,9 +144,20 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
     if not sites:
         entry_print("Unable to fetch subpage URLs form site map of " + old_url)
 
+    # find blog pages
+    old_blog_page = get_blog_site(old_url)
+    new_blog_page = get_blog_site(new_url)
+    blog_exists = True
+
+    if not old_blog_page or not new_blog_page:
+        blog_exists = False
+
     # calculate the step for each subpage
     step *= 0.97
-    page_step = step / 2 / (len(sites) + 1)
+    if blog_exists:
+        page_step = step / 2 / (len(sites) + 1)
+    else:
+        page_step = step / (len(sites) + 1)
 
     if old_url.endswith('/'):
         old_url = old_url[:-1]
@@ -182,11 +193,9 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
         if progress_var:
             progress_var.set(progress_var.get() + page_step)
 
-    old_blog_page = get_blog_site(old_url)
-    new_blog_page = get_blog_site(new_url)
-
-    if not old_blog_page or not new_blog_page:
+    if not blog_exists:
         browser.quit()
+        entry_print("-----------------------------------------------------------")
         return
 
     step /= 2
