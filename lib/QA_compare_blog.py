@@ -419,8 +419,7 @@ def compare_blog_image(old_soup, new_soup, old_url, new_url):
 
     # find images with missing alt text
     try:
-        bad_images = new_content.find_all('img', alt="", src=re.compile("^((/common/)(?!(data|resource)))")) + \
-                     new_content.find_all('img', alt=False, src=re.compile("^((/common/)(?!(data|resource)))"))
+        bad_images = new_content.find_all('img', alt=lambda x: not x, src=re.compile("^((/common/)(?!(data|resource)))"))
     except AttributeError:
         bad_images = []
     if bad_images:
