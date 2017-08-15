@@ -112,12 +112,35 @@ def set_meta(old_url, new_url, browser):
     submit_button = browser.find_element_by_xpath('//input[@type="submit"]')
     submit_button.click()
 
-    new_path = urlparse(url).path
+    new_path = urlparse(new_url).path
+    if not new_path:
+        new_path = "/"
     entry_print(new_path + " metadata migrated!")
 
 
 # migrate metadata for new site
 def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
+    old_url = old_url.strip()
+    new_url = new_url.strip()
+
+    # remove the "/" at the end of the url
+    if old_url[-1] == '/':
+        old_url = old_url[:-1]
+    if new_url[-1] == '/':
+        new_url = new_url[:-1]
+
+    # add "http://" before url
+    if not old_url.startswith("http"):
+        old_url = "http://" + old_url
+    if not new_url.startswith("http"):
+        new_url = "http://" + new_url
+
+    # print out the information for old and new sites
+    entry_print("-----------------------------------------------------")
+    entry_print("Old URL: " + old_url)
+    entry_print("New URL: " + new_url)
+    entry_print("-----------------------------------------------------")
+
     browser = webdriver.Chrome(executable_path=settings["EXECUTABLE_PATH"])
     browser.maximize_window()
 
@@ -159,11 +182,7 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
     else:
         page_step = step / (len(sites) + 1)
 
-    if old_url.endswith('/'):
-        old_url = old_url[:-1]
-    if new_url.endswith('/'):
-        new_url = new_url[:-1]
-
+    # migrate metadata for homepage
     set_meta(old_url, new_url, browser)
 
     # check program status

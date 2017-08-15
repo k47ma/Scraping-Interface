@@ -111,6 +111,27 @@ def get_subpages(old_url):
 
 # migrate all the subpages according to nav menu
 def migrate_subpages(old_url, new_url, progress_var=None, step=100.0):
+    old_url = old_url.strip()
+    new_url = new_url.strip()
+
+    # remove the "/" at the end of the url
+    if old_url[-1] == '/':
+        old_url = old_url[:-1]
+    if new_url[-1] == '/':
+        new_url = new_url[:-1]
+
+    # add "http://" before url
+    if not old_url.startswith("http"):
+        old_url = "http://" + old_url
+    if not new_url.startswith("http"):
+        new_url = "http://" + new_url
+
+    # print out the information for old and new sites
+    entry_print("-----------------------------------------------------")
+    entry_print("Old URL: " + old_url)
+    entry_print("New URL: " + new_url)
+    entry_print("-----------------------------------------------------")
+
     browser = webdriver.Chrome(executable_path=settings["EXECUTABLE_PATH"])
     wait = WebDriverWait(browser, 20)
     browser.maximize_window()

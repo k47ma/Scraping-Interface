@@ -181,13 +181,35 @@ def migrate_post(old_post, new_blog, browser):
 
 # migrate all blog pages under blog
 def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
+    old_url = old_blog.strip()
+    new_url = new_blog.strip()
+
+    # remove the "/" at the end of the url
+    if old_url[-1] == '/':
+        old_url = old_url[:-1]
+    if new_url[-1] == '/':
+        new_url = new_url[:-1]
+
+    # add "http://" before url
+    if not old_url.startswith("http"):
+        old_url = "http://" + old_url
+    if not new_url.startswith("http"):
+        new_url = "http://" + new_url
+
+    # print out the information for old and new sites
+    entry_print("-----------------------------------------------------")
+    entry_print("Old URL: " + old_url)
+    entry_print("New URL: " + new_url)
+    entry_print("-----------------------------------------------------")
+
+    # create new webdriver
     browser = webdriver.Chrome(executable_path=settings["EXECUTABLE_PATH"])
     browser.maximize_window()
 
     if progress_var:
         progress_var.set(progress_var.get() + step * 0.01)
 
-    blog_posts = get_blog_posts(old_blog)
+    blog_posts = get_blog_posts(old_url)
 
     if progress_var:
         progress_var.set(progress_var.get() + step * 0.02)
@@ -195,14 +217,14 @@ def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
     step *= 0.97
 
     if not blog_posts:
-        entry_print("Unable to get blog posts for " + old_blog)
+        entry_print("Unable to get blog posts for " + old_url)
         browser.quit()
         return
 
     blog_step = step / len(blog_posts)
 
     for post in blog_posts:
-        migrate_post(post, new_blog, browser)
+        migrate_post(post, new_url, browser)
         entry_print('\"' + post['title'][0] + "\" migrated!")
         if progress_var:
             progress_var.set(progress_var.get() + blog_step)
