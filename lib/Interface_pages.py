@@ -948,7 +948,7 @@ class Page7(Frame):
         self.progress_var.set(0)
 
         self.result.insert(END, "-----------------------------------------------------\nStart migrating...\n")
-        thread = MigrateBlogThread(self.entry1.get(), self.entry2.get(), self.progress_var)
+        thread = MigrateBlogThread(self.entry1.get(), self.entry2.get(), self)
         thread.daemon = True
 
         self.timer_frame.checking_thread = thread
