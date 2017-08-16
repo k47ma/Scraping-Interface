@@ -1,8 +1,8 @@
 # coding=utf-8
 import os
 import string
-from Tkconstants import END
 from config import *
+from ThreadSafeText import *
 
 # module for helper functions
 
@@ -93,6 +93,4 @@ def entry_print(content):
     if not current_entry:
         return
     content = content.encode("ascii", errors="ignore")
-    current_entry.insert(END, content + "\n")
-    current_entry.see(END)
-    return
+    add_text(content + "\n", current_entry)

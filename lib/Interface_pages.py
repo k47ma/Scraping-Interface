@@ -9,6 +9,7 @@ from Interface_timer import TimerFrame
 from Interface_progressbar import ProgressbarFrame
 from Interface_util import ask_quit
 from Interface_settings import *
+from ThreadSafeText import ThreadSafeText
 
 # module for page classes
 
@@ -227,7 +228,7 @@ class Page1(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = Text(frame3)
+        self.result = ThreadSafeText(frame3)
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -330,7 +331,7 @@ class Page2(Frame):
         lbl2 = Label(frame2, text="Result", width=10)
         lbl2.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = Text(frame2)
+        self.result = ThreadSafeText(frame2)
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -447,7 +448,7 @@ class Page3(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = Text(frame3)
+        self.result = ThreadSafeText(frame3)
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -566,7 +567,7 @@ class Page4(Frame):
         lbl2 = Label(frame2, text="Result", width=10)
         lbl2.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = Text(frame2)
+        self.result = ThreadSafeText(frame2)
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -686,7 +687,7 @@ class Page5(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = Text(frame3)
+        self.result = ThreadSafeText(frame3)
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -796,7 +797,7 @@ class Page6(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = Text(frame3)
+        self.result = ThreadSafeText(frame3)
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -906,7 +907,7 @@ class Page7(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = Text(frame3)
+        self.result = ThreadSafeText(frame3)
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 

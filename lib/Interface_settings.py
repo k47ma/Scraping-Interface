@@ -171,7 +171,7 @@ class ThreadPoolSetting(LabelFrame):
                           "due to the unstable performance of threading.")
         lbl1.pack(side=BOTTOM, pady=10)
 
-        frame1 = Frame(self)
+        frame1 = Frame(self, height=20)
         frame1.pack(side=TOP, fill=BOTH, expand=True, padx=10, pady=10)
 
         lbl2 = Label(frame1, text="Threadpool size:")
@@ -180,38 +180,15 @@ class ThreadPoolSetting(LabelFrame):
         size_var = StringVar()
         size_var.set(str(config.settings["THREADPOOL_SIZE"]))
 
-        self.selector = Spinbox(frame1, width=5, from_=1, to=20, textvariable=size_var, state="readonly", bd=1,
-                                command=self.validate)
-        self.selector.grid(row=0, column=1, padx=6, pady=6)
+        self.selector = Spinbox(frame1, width=5, from_=1, to=20, textvariable=size_var, state="readonly", bd=1)
+        self.selector.grid(row=0, column=1, padx=6, pady=6, sticky=NSEW)
 
         self.msg = Label(frame1, font=("Arial", 10))
         self.msg.grid(row=0, column=2, padx=6, pady=6)
-        self.validate()
 
     def fetch_data(self):
         data = {"THREADPOOL_SIZE": int(self.selector.get())}
         return data
-
-    def validate(self):
-        size = int(self.selector.get())
-        if 5 <= size <= 7:
-            self.msg["fg"] = "#006400"
-            self.msg["text"] = u"\u263a Good Choice!"
-        elif size < 3:
-            self.msg["fg"] = "#1E90FF"
-            self.msg["text"] = u"\u26f5 Cozy Life..."
-        elif 3 <= size < 5:
-            self.msg["fg"] = "#228B22"
-            self.msg["text"] = u"\u26d1 Safety is priority!"
-        elif 7 < size <= 10:
-            self.msg["fg"] = "#FF8C00"
-            self.msg["text"] = u"\u26a1 Speed up!"
-        elif 10 < size <= 15:
-            self.msg["fg"] = "#B22222"
-            self.msg["text"] = u"\u26a0 Why so hasty?"
-        elif size > 15:
-            self.msg["fg"] = "#FF0000"
-            self.msg["text"] = u"\u26d4 I'm not sure if the program will survive this trip..."
 
 
 class ExceptionSetting(LabelFrame):
