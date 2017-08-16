@@ -154,9 +154,11 @@ def compare_blog_posts_thread(old_dic, new_dic, old_list, new_list, old_url, new
             new_link = "http://" + new_hostname + new_link
 
         if browser:
-            post_pass = compare_blog_page_thread(old_link, new_link, browser=browser, progress_var=progress_var, step=post_step)
+            post_pass = compare_blog_page_thread(old_link, new_link, browser=browser, progress_var=progress_var,
+                                                 step=post_step)
         else:
-            thread_pool.add_task(compare_blog_page_thread, old_url=old_link, new_url=new_link, progress_var=progress_var, step=post_step)
+            thread_pool.add_task(compare_blog_page_thread, old_url=old_link, new_url=new_link,
+                                 progress_var=progress_var, step=post_step)
 
     thread_pool.wait_completion()
     thread_pool.destroy()
@@ -398,8 +400,8 @@ def compare_blog_image(old_soup, new_soup, old_url, new_url):
 
     # check for images with id
     try:
-        bad_images = new_content.find_all('img', imagesiteid=True) + new_content.find_all('img',
-                                                                                          objectid=True)
+        bad_images = list(set(new_content.find_all('img', imagesiteid=True) +
+                              new_content.find_all('img', objectid=True)))
     except AttributeError:
         bad_images = []
     if bad_images:
@@ -419,7 +421,8 @@ def compare_blog_image(old_soup, new_soup, old_url, new_url):
 
     # find images with missing alt text
     try:
-        bad_images = new_content.find_all('img', alt=lambda x: not x, src=re.compile("^((/common/)(?!(data|resource)))"))
+        bad_images = new_content.find_all('img', alt=lambda x: not x,
+                                          src=re.compile("^((/common/)(?!(data|resource)))"))
     except AttributeError:
         bad_images = []
     if bad_images:

@@ -7,7 +7,7 @@ browser = webdriver.Chrome("C:\Users\kma01\Downloads\QA\QA-Interface\chromedrive
 wait = WebDriverWait(browser, 20)
 browser.maximize_window()
 
-browser.get("http://pritchardortho.televox.west.com/cms/Popup.aspx?portalId=349737&pageId=393073&control=PtlPageSubPages")
+browser.get("")
 username = browser.find_element_by_id('ctl00_ContentPlaceHolder1_txtUsername')
 username.send_keys("")
 password = browser.find_element_by_id('ctl00_ContentPlaceHolder1_txtPassword')

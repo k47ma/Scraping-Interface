@@ -259,6 +259,7 @@ class Page1(Frame):
             return
 
         status["CURRENT_ENTRY"] = self.result
+        status["CURRENT_QUEUE"] = self.result.queue
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -368,6 +369,7 @@ class Page2(Frame):
             return
 
         status["CURRENT_ENTRY"] = self.result
+        status["CURRENT_QUEUE"] = self.result.queue
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -491,6 +493,7 @@ class Page3(Frame):
             return
 
         status["CURRENT_ENTRY"] = self.result
+        status["CURRENT_QUEUE"] = self.result.queue
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -611,6 +614,7 @@ class Page4(Frame):
             return
 
         status["CURRENT_ENTRY"] = self.result
+        status["CURRENT_QUEUE"] = self.result.queue
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -725,6 +729,7 @@ class Page5(Frame):
             return
 
         status["CURRENT_ENTRY"] = self.result
+        status["CURRENT_QUEUE"] = self.result.queue
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -835,6 +840,7 @@ class Page6(Frame):
             return
 
         status["CURRENT_ENTRY"] = self.result
+        status["CURRENT_QUEUE"] = self.result.queue
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -945,6 +951,7 @@ class Page7(Frame):
             return
 
         status["CURRENT_ENTRY"] = self.result
+        status["CURRENT_QUEUE"] = self.result.queue
         self.progress_var.set(0)
 
         self.result.insert(END, "-----------------------------------------------------\nStart migrating...\n")

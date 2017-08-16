@@ -63,7 +63,8 @@ def check_homepage_image(new_soup, new_url):
 
     # check for images with id
     try:
-        bad_images = new_content.find_all('img', imagesiteid=True) + new_content.find_all('img', objectid=True)
+        bad_images = list(set(new_content.find_all('img', imagesiteid=True) +
+                              new_content.find_all('img', objectid=True)))
     except AttributeError:
         bad_images = []
     if bad_images:

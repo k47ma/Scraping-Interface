@@ -31,8 +31,3 @@ class ThreadSafeText(Text):
         except Queue.Empty:
             pass
         self.after(100, self.my_update)
-
-
-# function for adding input to ThreadSafeText
-def add_text(input, widget):
-    widget.write(input)

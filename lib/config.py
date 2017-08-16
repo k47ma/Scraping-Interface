@@ -161,4 +161,5 @@ status = {
     "INTERFACE_MODE": False,
     "CHECKING_STATUS": False,
     "CURRENT_ENTRY": None,
+    "CURRENT_QUEUE": None
 }

@@ -155,10 +155,3 @@ settings = {
                            (chr(59), '')],
 
 }
-
-status = {
-    # flags for run-time state
-    "INTERFACE_MODE": False,
-    "CHECKING_STATUS": False,
-    "CURRENT_ENTRY": None,
-}
