@@ -94,9 +94,13 @@ def migrate_post(old_post, new_blog, browser):
     page_option = browser.find_element_by_xpath("//li[@class='optionAddPage']")
     page_option.click()
 
-    content_space_page = browser.find_element_by_xpath(
-        '//li[@class="optionAddPage"]//ul//li/a[text()="News/Blog Content Page"]')
-    content_space_page.click()
+    try:
+        content_space_page = browser.find_element_by_xpath(
+            '//li[@class="optionAddPage"]//ul//li/a[text()="News/Blog Content Page"]')
+        content_space_page.click()
+    except NoSuchElementException:
+        entry_print("Can't find + News/Blog Content Page button. Please make sure Our Blog is a News/Blog Page.")
+
 
     try:
         title_entry = browser.find_element_by_xpath("//input[@id='ctl00_ContentPlaceHolder1_ctl06_txtTitle']")

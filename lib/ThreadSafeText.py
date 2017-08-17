@@ -30,4 +30,7 @@ class ThreadSafeText(Text):
                 self.update_idletasks()
         except Queue.Empty:
             pass
-        self.after(100, self.my_update)
+        try:
+            self.after(100, self.my_update)
+        except SystemError:
+            self.after(100, self.my_update)

@@ -117,11 +117,10 @@ settings = {
     # when checking blog images
     "OLD_BLOG_IMAGE_IGNORE": [('header', {}),
                               ('img', {'width': "0"}),
-                              ('img', {'height': "0"}),
-                              ('img', {'src': re.compile("^data|fbcdn")})],
+                              ('img', {'height': "0"})],
 
     "NEW_BLOG_IMAGE_IGNORE": [('img', {'id': "featured_image"}),
-                              ('img', {'src': re.compile("^data|fbcdn")})],
+                              ('img', {'src': re.compile("^fbcdn")})],
 
     # when checking blog links
     "OLD_BLOG_LINK_IGNORE": [('header', {}),
