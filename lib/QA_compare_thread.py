@@ -20,6 +20,7 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0, thread_
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         return
 
+    # checking multiple sites mode
     if thread_pool_csv:
         thread_pool = thread_pool_csv
     else:
@@ -137,7 +138,10 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0, thread_
 
 # compare all the sites in file
 def compare_site_thread_csv(file, progress_var=None, step=100.0):
-    thread_pool_csv = ThreadPool(settings["THREADPOOL_SIZE"])
+    if status["INTERFACE_MODE"]:
+        thread_pool_csv = ThreadPool(settings["THREADPOOL_SIZE"])
+    else:
+        thread_pool_csv = ThreadPool(20)
 
     f = open(file, 'r')
 

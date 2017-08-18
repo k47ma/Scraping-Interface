@@ -22,13 +22,13 @@ class App(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
 
-        self.protocol("WM_DELETE_WINDOW", ask_quit)
-
         global root
         root = self
 
-        root.iconbitmap(r'image\icon.ico')
+        status["INTERFACE_MODE"] = True
 
+        root.iconbitmap(r'image\icon.ico')
+        self.protocol("WM_DELETE_WINDOW", ask_quit)
         self.wm_title("QA Interface")
         self.wm_geometry("1000x600")
         self.minsize(width=500, height=300)

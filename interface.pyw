@@ -8,7 +8,5 @@ from lib.config import status
 reload(sys)
 sys.setdefaultencoding('UTF8')
 
-status["INTERFACE_MODE"] = True
-
 app = App()
 app.mainloop()
