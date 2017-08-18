@@ -14,7 +14,7 @@ settings = {
     "EXECUTABLE_PATH": "chromedriver\chromedriver.exe",
 
     # size of the thread pool
-    "THREADPOOL_SIZE": 20,
+    "THREADPOOL_SIZE": 6,
 
     # when getting soup
     "GET_OLD_SOUP_IGNORE": [(['script', 'style', 'iframe', 'noscript'], {}),
