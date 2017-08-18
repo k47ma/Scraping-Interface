@@ -15,12 +15,15 @@ from config import *
 
 
 # compare sites using threading
-def compare_site_thread(old_url, new_url, progress_var=None, step=100.0):
+def compare_site_thread(old_url, new_url, progress_var=None, step=100.0, thread_pool_csv=None):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         return
 
-    thread_pool = ThreadPool(settings["THREADPOOL_SIZE"])
+    if thread_pool_csv:
+        thread_pool = thread_pool_csv
+    else:
+        thread_pool = ThreadPool(settings["THREADPOOL_SIZE"])
     create_path()
     ind = 0
 
@@ -122,8 +125,10 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0):
         compare_blog(old_blog_soup, new_blog_soup, old_blog, new_blog, progress_var=progress_var,
                      step=step / 2)
 
-    thread_pool.wait_completion()
-    thread_pool.destroy()
+    # single site mode
+    if not thread_pool_csv:
+        thread_pool.wait_completion()
+        thread_pool.destroy()
 
     entry_print("-----------------------------------------------------\n")
 
@@ -132,6 +137,8 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0):
 
 # compare all the sites in file
 def compare_site_thread_csv(file, progress_var=None, step=100.0):
+    thread_pool_csv = ThreadPool(settings["THREADPOOL_SIZE"])
+
     f = open(file, 'r')
 
     # calculate the step for each site
@@ -143,12 +150,15 @@ def compare_site_thread_csv(file, progress_var=None, step=100.0):
     rows = csv.reader(f)
 
     for row in rows:
-        compare_site_thread(row[0], row[1], progress_var=progress_var, step=site_step)
+        compare_site_thread(row[0], row[1], progress_var=progress_var, step=site_step, thread_pool_csv=thread_pool_csv)
         # check program status
         if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
             f.close()
             return
     f.close()
+
+    thread_pool_csv.wait_completion()
+    thread_pool_csv.destroy()
 
 
 # compare everything for normal pages

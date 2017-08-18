@@ -15,12 +15,10 @@ soup = BeautifulSoup(text, "html.parser")
 
 images = soup.find_all('img')
 
-ind = 485212
+ind = 491245
 for image in images:
     image['src'] = "/common/pages/UserFile.aspx?fileId=" + str(ind)
     ind += 2
-    if ind == 485214:
-        ind += 1
 
 soup = re.sub('imagesiteid=".*?" objectid=".*?" ', "", str(soup))
 

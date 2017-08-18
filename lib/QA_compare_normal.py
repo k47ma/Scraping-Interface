@@ -485,7 +485,7 @@ def compare_link_soup(old_soup, new_soup, old_url, new_url, browser=None):
                     new_pass3 = False
                 entry_print("Old link" + str(count) + ": " + old_link)
                 entry_print("New link" + str(count) + ": " + new_link)
-                entry_print("Old target" + str(count) + ":" + old_target_title)
+                entry_print("Old target" + str(count) + ": " + old_target_title)
                 entry_print("New target" + str(count) + ": " + new_target_title)
                 entry_print("Old tag" + str(count) + ": " + str(old_tags[ind]))
                 entry_print("New tag" + str(count) + ": " + str(new_tags[ind]))
