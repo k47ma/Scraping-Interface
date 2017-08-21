@@ -256,8 +256,12 @@ def check_homepage_link(old_soup, new_soup, old_url, new_url, browser=None):
                         detail.write("New URL: " + new_url + "\n")
                         publish_pass = False
                         page_pass = False
+                    entry_print("Old target: " + old_target_title)
+                    entry_print("New target: " + new_target_title)
                     entry_print("Old link: " + old_link)
                     entry_print("New link: " + new_link)
+                    detail.write("Old target: " + old_target_title + "\n")
+                    detail.write("New target: " + new_target_title + "\n")
                     detail.write("Old link: " + old_link + "\n")
                     detail.write("New link: " + new_link + "\n")
             if old_name_dup != new_name_dup:
@@ -343,6 +347,8 @@ def check_homepage_link(old_soup, new_soup, old_url, new_url, browser=None):
                     entry_print("New target: " + new_target_title)
                     entry_print("Old link: " + old_link)
                     entry_print("New link: " + new_link)
+                    detail.write("Old target: " + old_target_title + "\n")
+                    detail.write("New target: " + new_target_title + "\n")
                     detail.write("Old link: " + old_link + "\n")
                     detail.write("New link: " + new_link + "\n")
         if not social_pass:

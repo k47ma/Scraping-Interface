@@ -228,7 +228,7 @@ class Page1(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = ThreadSafeText(frame3)
+        self.result = ThreadSafeText(frame3, "QUEUE1")
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -258,8 +258,7 @@ class Page1(Frame):
             tkMessageBox.showinfo("URL Required", "Old URL and New URL are required!")
             return
 
-        status["CURRENT_ENTRY"] = self.result
-        status["CURRENT_QUEUE"] = self.result.queue
+        status["CURRENT_ENTRY"] = 1
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -332,7 +331,7 @@ class Page2(Frame):
         lbl2 = Label(frame2, text="Result", width=10)
         lbl2.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = ThreadSafeText(frame2)
+        self.result = ThreadSafeText(frame2, "QUEUE2")
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -368,8 +367,7 @@ class Page2(Frame):
             tkMessageBox.showinfo("File Path Required", "File Path is required!")
             return
 
-        status["CURRENT_ENTRY"] = self.result
-        status["CURRENT_QUEUE"] = self.result.queue
+        status["CURRENT_ENTRY"] = 2
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -450,7 +448,7 @@ class Page3(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = ThreadSafeText(frame3)
+        self.result = ThreadSafeText(frame3, "QUEUE3")
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -492,8 +490,7 @@ class Page3(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = self.result
-        status["CURRENT_QUEUE"] = self.result.queue
+        status["CURRENT_ENTRY"] = 3
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -570,7 +567,7 @@ class Page4(Frame):
         lbl2 = Label(frame2, text="Result", width=10)
         lbl2.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = ThreadSafeText(frame2)
+        self.result = ThreadSafeText(frame2, "QUEUE4")
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -613,8 +610,7 @@ class Page4(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = self.result
-        status["CURRENT_QUEUE"] = self.result.queue
+        status["CURRENT_ENTRY"] = 4
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -691,7 +687,7 @@ class Page5(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = ThreadSafeText(frame3)
+        self.result = ThreadSafeText(frame3, "QUEUE5")
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -728,8 +724,7 @@ class Page5(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = self.result
-        status["CURRENT_QUEUE"] = self.result.queue
+        status["CURRENT_ENTRY"] = 5
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -802,7 +797,7 @@ class Page6(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = ThreadSafeText(frame3)
+        self.result = ThreadSafeText(frame3, "QUEUE6")
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -839,8 +834,7 @@ class Page6(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = self.result
-        status["CURRENT_QUEUE"] = self.result.queue
+        status["CURRENT_ENTRY"] = 6
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -913,7 +907,7 @@ class Page7(Frame):
         lbl3 = Label(frame3, text="Result", width=10)
         lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
 
-        self.result = ThreadSafeText(frame3)
+        self.result = ThreadSafeText(frame3, "QUEUE7")
         self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
         self.result.bind("<Configure>", self.resize)
 
@@ -950,8 +944,7 @@ class Page7(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = self.result
-        status["CURRENT_QUEUE"] = self.result.queue
+        status["CURRENT_ENTRY"] = 7
         self.progress_var.set(0)
 
         self.result.insert(END, "-----------------------------------------------------\nStart migrating...\n")

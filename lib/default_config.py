@@ -102,7 +102,8 @@ settings = {
     # when checking homepage images
     "HOMEPAGE_IMAGE_IGNORE": [('div', {'id': re.compile("^(banner|primary-navigation)$")}),
                               ('img', {'runat': 'server'}),
-                              ('img', {'src': re.compile("google|^data|fbcdn")})],
+                              ('img', {'src': re.compile("google|^data|fbcdn")}),
+                              ('li', {'class': "calloutItem"})],
 
     # when checking homepage content
     "OLD_HOMEPAGE_CONTENT_IGNORE": [],

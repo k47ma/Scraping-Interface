@@ -75,8 +75,9 @@ def clear_all():
     file9.close()
 
     current_entry = status["CURRENT_ENTRY"]
-    if current_entry:
-        current_entry.delete(1.0, END)
+    current_queue = status["QUEUE" + str(current_entry)]
+    if current_queue:
+        current_queue.put(None)
 
 
 # create the result folder
@@ -89,8 +90,11 @@ def create_path():
 # print content to interface dialog
 def entry_print(content):
     print(content)
-    current_queue = status["CURRENT_QUEUE"]
-    if not current_queue:
+
+    current_entry = status["CURRENT_ENTRY"]
+    if not current_entry:
         return
+
+    current_queue = status["QUEUE" + str(current_entry)]
     content = content.encode("ascii", errors="ignore")
     current_queue.put(content + "\n")

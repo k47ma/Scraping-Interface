@@ -1,4 +1,5 @@
 import re
+import Queue
 from bs4 import Comment, Doctype, ProcessingInstruction
 
 # module for storing key values
@@ -102,7 +103,8 @@ settings = {
     # when checking homepage images
     "HOMEPAGE_IMAGE_IGNORE": [('div', {'id': re.compile("^(banner|primary-navigation)$")}),
                               ('img', {'runat': 'server'}),
-                              ('img', {'src': re.compile("google|^data|fbcdn")})],
+                              ('img', {'src': re.compile("google|^data|fbcdn")}),
+                              ('li', {'class': "calloutItem"})],
 
     # when checking homepage content
     "OLD_HOMEPAGE_CONTENT_IGNORE": [],
@@ -159,6 +161,12 @@ status = {
     # flags for run-time state
     "INTERFACE_MODE": False,
     "CHECKING_STATUS": False,
-    "CURRENT_ENTRY": None,
-    "CURRENT_QUEUE": None
+    "CURRENT_ENTRY": 0,
+    "QUEUE1": Queue.Queue(),
+    "QUEUE2": Queue.Queue(),
+    "QUEUE3": Queue.Queue(),
+    "QUEUE4": Queue.Queue(),
+    "QUEUE5": Queue.Queue(),
+    "QUEUE6": Queue.Queue(),
+    "QUEUE7": Queue.Queue()
 }
