@@ -32,6 +32,7 @@ class App(Tk):
         self.wm_title("QA Interface")
         self.wm_geometry("1000x600")
         self.minsize(width=500, height=300)
+        self["cursor"] = "@main.cur"
 
         load_config()
 
@@ -118,49 +119,49 @@ class StartPage(Frame):
         setting = Button(qa_frame, image=self.setting_icon, command=self.show_settings)
         setting.pack(anchor=NE, padx=5, pady=5)
 
-        p1btn = Button(qa_frame, text="Compare Single Site", width=30, height=2, cursor="hand2",
+        p1btn = Button(qa_frame, text="Compare Single Site", width=30, height=2,
                        command=lambda: controller.show_frame("page1"))
         p1btn.pack(side=TOP, padx=5, pady=(10, 5))
         p1btn.bind("<Enter>", on_enter)
         p1btn.bind("<Leave>", on_leave)
         p1btn.bind("<ButtonRelease-1>", on_enter)
 
-        p2btn = Button(qa_frame, text="Compare Multiple Sites", width=30, height=2, cursor="hand2",
+        p2btn = Button(qa_frame, text="Compare Multiple Sites", width=30, height=2,
                        command=lambda: controller.show_frame("page2"))
         p2btn.pack(side=TOP, padx=5, pady=5)
         p2btn.bind("<Enter>", on_enter)
         p2btn.bind("<Leave>", on_leave)
         p2btn.bind("<ButtonRelease-1>", on_enter)
 
-        p3btn = Button(qa_frame, text="Compare Single Site with Login", width=30, height=2, cursor="hand2",
+        p3btn = Button(qa_frame, text="Compare Single Site with Login", width=30, height=2,
                        command=lambda: controller.show_frame("page3"))
         p3btn.pack(side=TOP, padx=5, pady=5)
         p3btn.bind("<Enter>", on_enter)
         p3btn.bind("<Leave>", on_leave)
         p3btn.bind("<ButtonRelease-1>", on_enter)
 
-        p4btn = Button(qa_frame, text="Compare Multiple Sites with Login", width=30, height=2, cursor="hand2",
+        p4btn = Button(qa_frame, text="Compare Multiple Sites with Login", width=30, height=2,
                        command=lambda: controller.show_frame("page4"))
         p4btn.pack(side=TOP, padx=5, pady=(5, 10))
         p4btn.bind("<Enter>", on_enter)
         p4btn.bind("<Leave>", on_leave)
         p4btn.bind("<ButtonRelease-1>", on_enter)
 
-        p5btn = Button(migrate_frame, text="Create Subpages (Essentials Only)", width=30, height=2, cursor="hand2",
+        p5btn = Button(migrate_frame, text="Create Subpages (Essentials Only)", width=30, height=2,
                        command=lambda: controller.show_frame("page5"))
         p5btn.pack(side=TOP, padx=5, pady=(10, 5))
         p5btn.bind("<Enter>", on_enter)
         p5btn.bind("<Leave>", on_leave)
         p5btn.bind("<ButtonRelease-1>", on_enter)
 
-        p6btn = Button(migrate_frame, text="Migrate Metadata", width=30, height=2, cursor="hand2",
+        p6btn = Button(migrate_frame, text="Migrate Metadata", width=30, height=2,
                        command=lambda: controller.show_frame("page6"))
         p6btn.pack(side=TOP, padx=5, pady=(10, 5))
         p6btn.bind("<Enter>", on_enter)
         p6btn.bind("<Leave>", on_leave)
         p6btn.bind("<ButtonRelease-1>", on_enter)
 
-        p7btn = Button(migrate_frame, text="Migrate Blog", width=30, height=2, cursor="hand2",
+        p7btn = Button(migrate_frame, text="Migrate Blog", width=30, height=2,
                        command=lambda: controller.show_frame("page7"))
         p7btn.pack(side=TOP, padx=5, pady=(10, 5))
         p7btn.bind("<Enter>", on_enter)
