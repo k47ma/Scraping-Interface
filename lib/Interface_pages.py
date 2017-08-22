@@ -380,6 +380,7 @@ class Page2(Frame):
             clear_all()
             self.result.delete('1.0', END)
 
+        self.result.insert(END, "-----------------------------------------------------\nStart checking...\n")
         fname = self.fname_entry.get()
         thread = CompareCSVThread(fname, self)
         thread.daemon = True
@@ -623,6 +624,7 @@ class Page4(Frame):
             clear_all()
             self.result.delete('1.0', END)
 
+        self.result.insert(END, "-----------------------------------------------------\nStart checking...\n")
         fname = self.fname_entry.get()
         thread = CompareSeleniumCSVThread(fname, self)
         thread.daemon = True
