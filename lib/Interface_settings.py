@@ -180,7 +180,7 @@ class ThreadPoolSetting(LabelFrame):
         size_var = StringVar()
         size_var.set(str(config.settings["THREADPOOL_SIZE"]))
 
-        self.selector = Spinbox(frame1, width=5, from_=1, to=20, textvariable=size_var, state="readonly", bd=1)
+        self.selector = Spinbox(frame1, width=5, from_=1, to=50, textvariable=size_var, state="readonly", bd=1)
         self.selector.grid(row=0, column=1, padx=6, pady=6, sticky=NSEW)
 
         self.msg = Label(frame1, font=("Arial", 10))

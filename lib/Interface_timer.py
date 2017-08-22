@@ -86,7 +86,7 @@ class TimeThread(threading.Thread):
                 self.update(hour_var, minute_var, second_var)
             except TclError:
                 continue
-        entry_print("Process finished in %d h %d min %d s." % (hour_var, minute_var, second_var))
+        entry_print("Process finished in %d h %d min %d s." % (hour_var, minute_var, second_var), True)
 
     def update(self, hour, minute, second):
         self.hour["text"] = "%02d" % hour

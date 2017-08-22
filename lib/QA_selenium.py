@@ -37,9 +37,10 @@ def compare_site_selenium(old_url, new_url, progress_var=None, step=100.0):
         new_url = new_url[:-1]
 
     # print out the information for old and new sites
-    entry_print("-----------------------------------------------------")
-    entry_print("Old URL: " + old_url)
-    entry_print("New URL: " + new_url)
+    entry_print("-----------------------------------------------------", True)
+    entry_print("Old URL: " + old_url, True)
+    entry_print("New URL: " + new_url, True)
+    entry_print("-----------------------------------------------------", True)
 
     setup_step = step * 0.01
     if progress_var:

@@ -64,6 +64,7 @@ def clear_all():
     file7 = open("result\\blog_detail.txt", 'w')
     file8 = open("result\\homepage_detail.txt", 'w')
     file9 = open("result\\form_detail.txt", 'w')
+    file10 = open("result\\QA_result.txt", 'w')
     file1.close()
     file2.close()
     file3.close()
@@ -73,11 +74,7 @@ def clear_all():
     file7.close()
     file8.close()
     file9.close()
-
-    current_entry = status["CURRENT_ENTRY"]
-    current_queue = status["QUEUE" + str(current_entry)]
-    if current_queue:
-        current_queue.put(None)
+    file10.close()
 
 
 # create the result folder
@@ -88,5 +85,14 @@ def create_path():
 
 
 # print content to interface dialog
-def entry_print(content):
+def entry_print(content, add_to_text=False):
     print content
+
+    summary = open("result\\QA_result.txt", 'a')
+    summary.write(content + "\n")
+    summary.close()
+
+    textarea = status["CURRENT_ENTRY"]
+    if textarea and add_to_text:
+        textarea.insert(END, content + "\n")
+        textarea.see(END)

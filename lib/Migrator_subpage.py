@@ -36,7 +36,7 @@ def create_subpages(root_url, subpages, browser, progress_var=None, step=20.0):
             page_option = browser.find_element_by_xpath("//li[@class='optionAddPage']")
             page_option.click()
         except NoSuchElementException:
-            entry_print("Unable to create subpage for " + root_url)
+            entry_print("Unable to create subpage for " + root_url, True)
             if progress_var:
                 progress_var.set(progress_var.get() + page_step)
             continue
@@ -72,7 +72,7 @@ def create_subpages(root_url, subpages, browser, progress_var=None, step=20.0):
             create_page = browser.find_element_by_name("ctl00$ContentPlaceHolder1$ctl01$btnSubmit")
         create_page.click()
 
-        entry_print(page[0] + " (" + page[1] + ") created!")
+        entry_print(page[0] + " (" + page[1] + ") created!", True)
 
         if progress_var:
             progress_var.set(progress_var.get() + page_step)
@@ -127,10 +127,10 @@ def migrate_subpages(old_url, new_url, progress_var=None, step=100.0):
         new_url = "http://" + new_url
 
     # print out the information for old and new sites
-    entry_print("-----------------------------------------------------")
-    entry_print("Old URL: " + old_url)
-    entry_print("New URL: " + new_url)
-    entry_print("-----------------------------------------------------")
+    entry_print("-----------------------------------------------------", True)
+    entry_print("Old URL: " + old_url, True)
+    entry_print("New URL: " + new_url, True)
+    entry_print("-----------------------------------------------------", True)
 
     browser = webdriver.Chrome(executable_path=settings["EXECUTABLE_PATH"])
     wait = WebDriverWait(browser, 20)
@@ -139,7 +139,7 @@ def migrate_subpages(old_url, new_url, progress_var=None, step=100.0):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         browser.quit()
-        entry_print("-----------------------------------------------------\n")
+        entry_print("-----------------------------------------------------\n", True)
         return
 
     if progress_var:
@@ -156,7 +156,7 @@ def migrate_subpages(old_url, new_url, progress_var=None, step=100.0):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         browser.quit()
-        entry_print("-----------------------------------------------------\n")
+        entry_print("-----------------------------------------------------\n", True)
         return
 
     # log into the page if the site needs login
@@ -170,7 +170,7 @@ def migrate_subpages(old_url, new_url, progress_var=None, step=100.0):
 
     # avoid divided by zero error
     if not parsed_subpages:
-        entry_print("Unable to fetch subpages from navigation menu of " + old_url)
+        entry_print("Unable to fetch subpages from navigation menu of " + old_url, True)
         return
 
     root_step = step / len(parsed_subpages)
@@ -182,5 +182,5 @@ def migrate_subpages(old_url, new_url, progress_var=None, step=100.0):
 
         create_subpages(new_url + page[0], page[1], browser, progress_var=progress_var, step=root_step)
 
-    entry_print("-----------------------------------------------------\n")
+    entry_print("-----------------------------------------------------\n", True)
     browser.quit()

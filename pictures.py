@@ -15,7 +15,7 @@ soup = BeautifulSoup(text, "html.parser")
 
 images = soup.find_all('img')
 
-ind = 503377
+ind = 503626
 for image in images:
     if not image.get('alt'):
         image['alt'] = image['src'].split('/')[-1]

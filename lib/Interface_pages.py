@@ -258,7 +258,7 @@ class Page1(Frame):
             tkMessageBox.showinfo("URL Required", "Old URL and New URL are required!")
             return
 
-        status["CURRENT_ENTRY"] = 1
+        status["CURRENT_ENTRY"] = self.result
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -268,8 +268,11 @@ class Page1(Frame):
             clear_all()
             self.result.delete('1.0', END)
 
+        old_url = self.entry1.get()
+        new_url = self.entry2.get()
+
         self.result.insert(END, "-----------------------------------------------------\nStart checking...\n")
-        thread = CompareThread(self.entry1.get(), self.entry2.get(), self)
+        thread = CompareThread(old_url, new_url, self)
         thread.daemon = True
 
         self.timer_frame.checking_thread = thread
@@ -367,7 +370,7 @@ class Page2(Frame):
             tkMessageBox.showinfo("File Path Required", "File Path is required!")
             return
 
-        status["CURRENT_ENTRY"] = 2
+        status["CURRENT_ENTRY"] = self.result
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -490,7 +493,7 @@ class Page3(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = 3
+        status["CURRENT_ENTRY"] = self.result
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -610,7 +613,7 @@ class Page4(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = 4
+        status["CURRENT_ENTRY"] = self.result
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -724,7 +727,7 @@ class Page5(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = 5
+        status["CURRENT_ENTRY"] = self.result
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -834,7 +837,7 @@ class Page6(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = 6
+        status["CURRENT_ENTRY"] = self.result
         status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
 
@@ -944,7 +947,7 @@ class Page7(Frame):
             tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
             return
 
-        status["CURRENT_ENTRY"] = 7
+        status["CURRENT_ENTRY"] = self.result
         self.progress_var.set(0)
 
         self.result.insert(END, "-----------------------------------------------------\nStart migrating...\n")

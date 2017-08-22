@@ -99,7 +99,7 @@ def migrate_post(old_post, new_blog, browser):
             '//li[@class="optionAddPage"]//ul//li/a[text()="News/Blog Content Page"]')
         content_space_page.click()
     except NoSuchElementException:
-        entry_print("Can't find + News/Blog Content Page button. Please make sure Our Blog is a News/Blog Page.")
+        entry_print("Can't find + News/Blog Content Page button. Please make sure Our Blog is a News/Blog Page.", True)
 
     try:
         title_entry = browser.find_element_by_xpath("//input[@id='ctl00_ContentPlaceHolder1_ctl06_txtTitle']")
@@ -200,10 +200,10 @@ def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
         new_url = "http://" + new_url
 
     # print out the information for old and new sites
-    entry_print("-----------------------------------------------------")
-    entry_print("Old URL: " + old_url)
-    entry_print("New URL: " + new_url)
-    entry_print("-----------------------------------------------------")
+    entry_print("-----------------------------------------------------", True)
+    entry_print("Old URL: " + old_url, True)
+    entry_print("New URL: " + new_url, True)
+    entry_print("-----------------------------------------------------", True)
 
     # create new webdriver
     browser = webdriver.Chrome(executable_path=settings["EXECUTABLE_PATH"])
@@ -220,7 +220,7 @@ def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
     step *= 0.97
 
     if not blog_posts:
-        entry_print("Unable to get blog posts for " + old_url)
+        entry_print("Unable to get blog posts for " + old_url, True)
         browser.quit()
         return
 
@@ -228,7 +228,7 @@ def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
 
     for post in blog_posts:
         migrate_post(post, new_url, browser)
-        entry_print('\"' + post['title'][0] + "\" migrated!")
+        entry_print('\"' + post['title'][0] + "\" migrated!", True)
         if progress_var:
             progress_var.set(progress_var.get() + blog_step)
     browser.close()

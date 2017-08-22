@@ -161,12 +161,5 @@ status = {
     # flags for run-time state
     "INTERFACE_MODE": False,
     "CHECKING_STATUS": False,
-    "CURRENT_ENTRY": 0,
-    "QUEUE1": Queue.Queue(),
-    "QUEUE2": Queue.Queue(),
-    "QUEUE3": Queue.Queue(),
-    "QUEUE4": Queue.Queue(),
-    "QUEUE5": Queue.Queue(),
-    "QUEUE6": Queue.Queue(),
-    "QUEUE7": Queue.Queue()
+    "CURRENT_ENTRY": None
 }

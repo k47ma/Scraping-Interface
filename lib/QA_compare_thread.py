@@ -44,10 +44,10 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0, thread_
         new_url = "http://" + new_url
 
     # print out the information for old and new sites
-    entry_print("-----------------------------------------------------")
-    entry_print("Old URL: " + old_url)
-    entry_print("New URL: " + new_url)
-    entry_print("-----------------------------------------------------")
+    entry_print("-----------------------------------------------------", True)
+    entry_print("Old URL: " + old_url, True)
+    entry_print("New URL: " + new_url, True)
+    entry_print("-----------------------------------------------------", True)
 
     setup_step = step * 0.01
     if progress_var:
@@ -58,7 +58,7 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0, thread_
     if new_test:
         title = new_test.find("title")
         if title and title.get_text().strip() == "Login":
-            entry_print("New site needs login. Please use login mode to check this site!\n")
+            entry_print("New site needs login. Please use login mode to check this site!\n", True)
             return -1
 
     setup_step = step * 0.01
@@ -213,6 +213,7 @@ def compare_page(old_url, new_url, browser=None, progress_var=None, step=1.0):
             progress_var.set(progress_var.get() + step)
         return True
     else:
+        entry_print(new_url + " FAILED! (see detail files for more information)")
         result.write(new_url + " FAILED! (see detail files for more information)\n")
         result.close()
         if progress_var:
