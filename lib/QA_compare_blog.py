@@ -120,7 +120,7 @@ def compare_blog(old_soup, new_soup, old_url, new_url, browser=None, progress_va
     blog_pass = meta_pass and title_pass and summary_pass and posts_pass
 
     if blog_pass:
-        entry_print(new_url + " BLOG PASSED!")
+        print(new_url + " BLOG PASSED!")
     detail.close()
     return blog_pass
 
@@ -220,7 +220,7 @@ def compare_blog_page_thread(old_url, new_url, browser=None, progress_var=None, 
     detail.close()
 
     if blog_pass:
-        entry_print(new_url + " BLOG PAGE PASSED!")
+        print(new_url + " BLOG PAGE PASSED!")
 
     if progress_var:
         progress_var.set(progress_var.get() + step)

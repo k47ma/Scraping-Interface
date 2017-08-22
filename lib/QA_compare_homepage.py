@@ -50,7 +50,7 @@ def compare_homepage(old_url, new_url, browser=None, progress_var=None, step=1.0
     page_pass = meta_pass and address_pass and content_pass and image_pass and link_pass
 
     if page_pass:
-        entry_print(new_url + " HOMEPAGE PASSED!")
+        print(new_url + " HOMEPAGE PASSED!")
         result.write(new_url + " HOMEPAGE PASSED!\n")
         result.close()
         if progress_var:

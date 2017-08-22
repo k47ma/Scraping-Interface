@@ -206,14 +206,14 @@ def compare_page(old_url, new_url, browser=None, progress_var=None, step=1.0):
     page_pass = meta_pass and form_pass and content_pass and image_pass and link_pass
 
     if page_pass:
-        entry_print(new_url + " PASSED!")
+        print(new_url + " PASSED!")
         result.write(new_url + " PASSED!\n")
         result.close()
         if progress_var:
             progress_var.set(progress_var.get() + step)
         return True
     else:
-        entry_print(new_url + " FAILED! (see detail files for more information)")
+        print(new_url + " FAILED! (see detail files for more information)")
         result.write(new_url + " FAILED! (see detail files for more information)\n")
         result.close()
         if progress_var:
