@@ -66,7 +66,10 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0, thread_
         progress_var.set(progress_var.get() + setup_step)
 
     # get the subpages of old and new sites
-    sites = get_sites(old_url)
+    try:
+        sites = get_sites(old_url)
+    except AttributeError:
+        entry_print("Can't find the site map from " + old_url + ". Please check if the url is valid!", True)
     old_blog = get_blog_site(old_url)
     new_blog = get_blog_site(new_url)
 
