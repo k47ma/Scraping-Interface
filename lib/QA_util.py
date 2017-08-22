@@ -89,12 +89,4 @@ def create_path():
 
 # print content to interface dialog
 def entry_print(content):
-    print(content)
-
-    current_entry = status["CURRENT_ENTRY"]
-    if not current_entry:
-        return
-
-    current_queue = status["QUEUE" + str(current_entry)]
-    content = content.encode("ascii", errors="ignore")
-    current_queue.put(content + "\n")
+    print content

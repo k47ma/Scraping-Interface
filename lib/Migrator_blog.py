@@ -101,7 +101,6 @@ def migrate_post(old_post, new_blog, browser):
     except NoSuchElementException:
         entry_print("Can't find + News/Blog Content Page button. Please make sure Our Blog is a News/Blog Page.")
 
-
     try:
         title_entry = browser.find_element_by_xpath("//input[@id='ctl00_ContentPlaceHolder1_ctl06_txtTitle']")
     except NoSuchElementException:

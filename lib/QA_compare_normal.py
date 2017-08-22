@@ -352,7 +352,8 @@ def compare_link_soup(old_soup, new_soup, old_url, new_url, browser=None):
         else:
             new_target = get_soup(url)
         new_target_title = get_meta_soup(new_target, url)['title']
-        if new_target_title.find("404") != -1 or new_target_title == "Page Not Found" or new_target_title == "none":
+        if new_target_title.find("404") != -1 or new_target_title == "Page Not Found" or new_target_title == "none" \
+                or new_target_title == "The resource cannot be found.":
             new_invalid_links.append((str(tag), new_target_title))
 
     if new_invalid_links:

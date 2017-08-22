@@ -15,12 +15,20 @@ soup = BeautifulSoup(text, "html.parser")
 
 images = soup.find_all('img')
 
-ind = 500042
+ind = 503377
 for image in images:
     if not image.get('alt'):
         image['alt'] = image['src'].split('/')[-1]
     image['src'] = "/common/pages/UserFile.aspx?fileId=" + str(ind)
     ind += 2
+    if ind == 503381 or ind == 503395 or ind == 503409:
+        ind += 2
+    if ind == 503395:
+        ind += 4
+    if ind == 503399 or ind == 503402:
+        ind += 1
+    if ind == 503413:
+        ind += 3
 
 soup = re.sub('imagesiteid=".*?" objectid=".*?" ', "", str(soup))
 
