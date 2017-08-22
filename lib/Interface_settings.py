@@ -181,10 +181,11 @@ class ThreadPoolSetting(LabelFrame):
         size_var.set(str(config.settings["THREADPOOL_SIZE"]))
 
         self.selector = Spinbox(frame1, width=5, from_=1, to=50, textvariable=size_var, state="readonly", bd=1)
-        self.selector.grid(row=0, column=1, padx=6, pady=6, sticky=NSEW)
+        self.selector.grid(row=0, column=1, padx=10, pady=6, ipady=3, sticky=W)
 
-        self.msg = Label(frame1, font=("Arial", 10))
-        self.msg.grid(row=0, column=2, padx=6, pady=6)
+        self.scale_selector = Scale(frame1, from_=1, to=50, tickinterval=49, variable=size_var, length=200, resolution=1,
+                                    orient=HORIZONTAL, command=size_var.set, showvalue=0)
+        self.scale_selector.grid(row=1, column=1, padx=10, sticky=W)
 
     def fetch_data(self):
         data = {"THREADPOOL_SIZE": int(self.selector.get())}
