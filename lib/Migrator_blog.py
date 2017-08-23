@@ -217,7 +217,7 @@ def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
     if progress_var:
         progress_var.set(progress_var.get() + step * 0.02)
 
-    step *= 0.97
+    step *= 0.95
 
     if not blog_posts:
         entry_print("Unable to get blog posts for " + old_url, True)
@@ -228,10 +228,44 @@ def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
 
     for post in blog_posts:
         migrate_post(post, new_url, browser)
+
         entry_print('\"' + post['title'][0] + "\" migrated!", True)
         if progress_var:
             progress_var.set(progress_var.get() + blog_step)
+
+    set_status(new_blog, browser)
+    if progress_var:
+        progress_var.set(progress_var.get() + step * 0.02)
+
     browser.close()
+
+
+# set all page status to be "hide selection"
+def set_status(new_blog, browser):
+    wait = WebDriverWait(browser, 20)
+    browser.get(new_blog)
+
+    if browser.title == "Login":
+        login(browser, wait)
+
+    option = browser.find_element_by_xpath("//li[@class='optionPageOptions']")
+    option.click()
+
+    # get relative path from a tag
+    page_status = browser.find_element_by_xpath("//li[@class='optionPageOptions']//ul//li/a[text()='Page Status']")
+    href = page_status.get_attribute('href')
+
+    rel_url = re.search("/cms/.*PtlPageSubPages", href).group(0)
+    main_url = re.match(".*\.televox\.west\.com", new_blog).group(0)
+
+    browser.get(main_url + rel_url)
+
+    elements = browser.find_elements_by_xpath("//span[@status='hidden_only']")
+
+    for ind in range(len(elements)):
+        elements = browser.find_elements_by_xpath("//span[@status='hidden_only']")
+        target = elements[ind].find_element_by_tag_name("input")
+        target.click()
 
 
 # remove duplicate "-" in post names

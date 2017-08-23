@@ -86,7 +86,7 @@ class TimeThread(threading.Thread):
                 self.update(hour_var, minute_var, second_var)
             except TclError:
                 continue
-        entry_print("-----------------------------------------------------\n", True)
+        entry_print("-----------------------------------------------------", True)
         entry_print("Process finished in %d h %d min %d s." % (hour_var, minute_var, second_var), True)
         entry_print("-----------------------------------------------------\n", True)
 
