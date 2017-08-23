@@ -217,7 +217,6 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
             set_meta(old_link, new_link, browser)
         except NoSuchElementException:
             entry_print("Missing Page: " + new_link, True)
-            entry_print("-----------------------------------------------------------", True)
         if progress_var:
             progress_var.set(progress_var.get() + page_step)
 
