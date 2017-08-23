@@ -1,5 +1,4 @@
 # coding=utf-8
-import re
 from urlparse import urlparse
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -11,7 +10,7 @@ from Migrator_util import login, ask_continue
 from config import *
 from QA_request import get_soup, get_blog_site, get_sites
 from QA_get import get_meta_soup
-from QA_util import entry_print
+from QA_util import migration_print
 
 # module for migrating metadata
 
@@ -78,11 +77,11 @@ def set_meta(old_url, new_url, browser):
     try:
         title_entry.send_keys(title)
     except UnicodeDecodeError:
-        entry_print("Unable to migrate title for " + new_url, True)
-        entry_print("Title: " + old_meta["title"], True)
-        entry_print("Description: " + old_meta["description"], True)
-        entry_print("Keywords: " + old_meta["keywords"], True)
-        entry_print("-----------------------------------------------------------", True)
+        migration_print("Unable to migrate title for " + new_url)
+        migration_print("Title: " + old_meta["title"])
+        migration_print("Description: " + old_meta["description"])
+        migration_print("Keywords: " + old_meta["keywords"])
+        migration_print("-----------------------------------------------------------")
         ask_continue()
         return
 
@@ -94,11 +93,11 @@ def set_meta(old_url, new_url, browser):
         try:
             description_entry.send_keys(description)
         except UnicodeDecodeError:
-            entry_print("Unable to migrate description for " + new_url, True)
-            entry_print("Title: " + old_meta["title"], True)
-            entry_print("Description: " + old_meta["description"], True)
-            entry_print("Keywords: " + old_meta["keywords"], True)
-            entry_print("-----------------------------------------------------------")
+            migration_print("Unable to migrate description for " + new_url)
+            migration_print("Title: " + old_meta["title"])
+            migration_print("Description: " + old_meta["description"])
+            migration_print("Keywords: " + old_meta["keywords"])
+            migration_print("-----------------------------------------------------------")
             ask_continue()
             return
 
@@ -110,11 +109,11 @@ def set_meta(old_url, new_url, browser):
         try:
             keywords_entry.send_keys(keywords)
         except UnicodeDecodeError:
-            entry_print("Unable to migrate keywords for " + new_url, True)
-            entry_print("Title: " + old_meta["title"], True)
-            entry_print("Description: " + old_meta["description"], True)
-            entry_print("Keywords: " + old_meta["keywords"], True)
-            entry_print("-----------------------------------------------------------", True)
+            migration_print("Unable to migrate keywords for " + new_url)
+            migration_print("Title: " + old_meta["title"])
+            migration_print("Description: " + old_meta["description"])
+            migration_print("Keywords: " + old_meta["keywords"])
+            migration_print("-----------------------------------------------------------")
             ask_continue()
             return
 
@@ -124,7 +123,7 @@ def set_meta(old_url, new_url, browser):
     new_path = urlparse(new_url).path
     if not new_path:
         new_path = "/"
-    entry_print(new_path + " metadata migrated!", True)
+    migration_print(new_path + " metadata migrated!")
 
 
 # migrate metadata for new site
@@ -145,10 +144,10 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
         new_url = "http://" + new_url
 
     # print out the information for old and new sites
-    entry_print("-----------------------------------------------------", True)
-    entry_print("Old URL: " + old_url, True)
-    entry_print("New URL: " + new_url, True)
-    entry_print("-----------------------------------------------------", True)
+    migration_print("-----------------------------------------------------")
+    migration_print("Old URL: " + old_url)
+    migration_print("New URL: " + new_url)
+    migration_print("-----------------------------------------------------")
 
     browser = webdriver.Chrome(executable_path=settings["EXECUTABLE_PATH"])
     browser.maximize_window()
@@ -156,7 +155,7 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         browser.quit()
-        entry_print("-----------------------------------------------------\n", True)
+        migration_print("-----------------------------------------------------\n")
         return
 
     if progress_var:
@@ -167,14 +166,14 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         browser.quit()
-        entry_print("-----------------------------------------------------\n", True)
+        migration_print("-----------------------------------------------------\n")
         return
 
     if progress_var:
         progress_var.set(progress_var.get() + step * 0.02)
 
     if not sites:
-        entry_print("Unable to fetch subpage URLs form site map of " + old_url, True)
+        migration_print("Unable to fetch subpage URLs form site map of " + old_url)
 
     # find blog pages
     old_blog_page = get_blog_site(old_url)
@@ -197,7 +196,7 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         browser.quit()
-        entry_print("-----------------------------------------------------\n", True)
+        migration_print("-----------------------------------------------------\n")
         return
 
     if progress_var:
@@ -208,7 +207,7 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
         # check program status
         if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
             browser.quit()
-            entry_print("-----------------------------------------------------\n", True)
+            migration_print("-----------------------------------------------------\n")
             return
 
         old_link = old_url + site
@@ -216,13 +215,13 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
         try:
             set_meta(old_link, new_link, browser)
         except NoSuchElementException:
-            entry_print("Missing Page: " + new_link, True)
+            migration_print("Missing Page: " + new_link,)
         if progress_var:
             progress_var.set(progress_var.get() + page_step)
 
     if not blog_exists:
         browser.quit()
-        entry_print("-----------------------------------------------------------", True)
+        migration_print("-----------------------------------------------------------")
         return
 
     step /= 2
@@ -230,7 +229,7 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         browser.quit()
-        entry_print("-----------------------------------------------------\n", True)
+        migration_print("-----------------------------------------------------\n")
         return
 
     old_blog_soup = get_soup(old_blog_page)
@@ -242,7 +241,7 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         browser.quit()
-        entry_print("-----------------------------------------------------\n", True)
+        migration_print("-----------------------------------------------------\n")
         return
 
     if progress_var:
@@ -263,7 +262,7 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
         try:
             link = blog.a.get('href')
         except AttributeError:
-            entry_print("Unable to find blog metadata for " + title, True)
+            migration_print("Unable to find blog metadata for " + title)
 
         if title in parsed_old_blogs:
             parsed_old_blogs[title + str(ind)] = link
@@ -299,7 +298,7 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
     # check program status
     if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
         browser.quit()
-        entry_print("-----------------------------------------------------\n", True)
+        migration_print("-----------------------------------------------------\n")
         return
 
     if progress_var:
@@ -310,7 +309,7 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
         # check program status
         if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
             browser.quit()
-            entry_print("-----------------------------------------------------\n", True)
+            migration_print("-----------------------------------------------------\n")
             return
 
         if old_list[ind][0] == new_list[ind][0]:
@@ -319,10 +318,10 @@ def migrate_meta(old_url, new_url, progress_var=None, step=100.0):
             try:
                 set_meta(parsed_old_blogs[old_list[ind][0]], parsed_new_blogs[old_list[ind][0]], browser)
             except KeyError:
-                entry_print("Cannot migrate metadata for blog page " + new_list[ind][1], True)
+                migration_print("Cannot migrate metadata for blog page " + new_list[ind][1])
                 continue
         if progress_var:
             progress_var.set(progress_var.get() + blog_step)
 
     browser.quit()
-    entry_print("-----------------------------------------------------\n", True)
+    migration_print("-----------------------------------------------------\n")

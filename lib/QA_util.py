@@ -96,3 +96,13 @@ def entry_print(content, add_to_text=False):
     if textarea and add_to_text:
         textarea.insert(END, content + "\n")
         textarea.see(END)
+
+
+# print migrator output to interface dialog
+def migration_print(content):
+    print content
+
+    textarea = status["CURRENT_ENTRY"]
+    if textarea:
+        textarea.insert(END, content + "\n")
+        textarea.see(END)
