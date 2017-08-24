@@ -120,8 +120,7 @@ settings = {
                               ('img', {'width': "0"}),
                               ('img', {'height': "0"})],
 
-    "NEW_BLOG_IMAGE_IGNORE": [('img', {'id': "featured_image"}),
-                              ('img', {'src': re.compile("^fbcdn")})],
+    "NEW_BLOG_IMAGE_IGNORE": [('img', {'src': re.compile("^fbcdn")})],
 
     # when checking blog links
     "OLD_BLOG_LINK_IGNORE": [('header', {}),
