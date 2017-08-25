@@ -70,6 +70,8 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0, thread_
         sites = get_sites(old_url)
     except AttributeError:
         entry_print("Can't find the site map from " + old_url + ". Please check if the url is valid!", True)
+        thread_pool.destroy()
+        return
     old_blog = get_blog_site(old_url)
     new_blog = get_blog_site(new_url)
 
