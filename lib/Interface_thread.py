@@ -6,7 +6,10 @@ from QA_selenium import *
 from Migrator_subpage import migrate_subpages
 from Migrator_metadata import migrate_meta
 from Migrator_blog import migrate_blog
-
+import meta
+import content
+import page
+import upload
 
 # module for threading events
 
@@ -129,4 +132,8 @@ class MigrateImageThread(threading.Thread):
         self.new_url = new_url
 
     def run(self):
-        pass
+        upload.migrateSiteImages(self.old_url, self.new_url)
+        page.createSitePages(self.old_url, self.new_url)
+        content.getSiteContent(self.old_url, self.new_url)
+        meta.getSiteMeta(self.old_url, self.new_url)
+
