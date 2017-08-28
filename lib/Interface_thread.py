@@ -1,5 +1,6 @@
 # coding=utf-8
 import threading
+from selenium.common.exceptions import NoSuchWindowException
 from QA_compare_thread import *
 from QA_selenium import *
 from Migrator_subpage import migrate_subpages
@@ -47,7 +48,11 @@ class CompareSeleniumThread(threading.Thread):
         self.parent = parent
 
     def run(self):
-        compare_site_selenium(self.old_url, self.new_url, progress_var=self.parent.progress_var, step=100.0)
+        try:
+            compare_site_selenium(self.old_url, self.new_url, progress_var=self.parent.progress_var, step=100.0)
+        except NoSuchWindowException:
+            entry_print("Process interrupted!", True)
+            pass
         self.parent.progress_var.set(100.0)
         self.parent.start_btn.configure(text="START", image=self.parent.start_icon, command=self.parent.start,
                                         fg="green", state="normal")
@@ -61,7 +66,11 @@ class CompareSeleniumCSVThread(threading.Thread):
         self.parent = parent
 
     def run(self):
-        compare_site_selenium_csv(self.fname, progress_var=self.parent.progress_var, step=100.0)
+        try:
+            compare_site_selenium_csv(self.fname, progress_var=self.parent.progress_var, step=100.0)
+        except NoSuchWindowException:
+            entry_print("Process interrupted!", True)
+            pass
         self.parent.progress_var.set(100.0)
         self.parent.start_btn.configure(text="START", image=self.parent.start_icon, command=self.parent.start,
                                         fg="green", state="normal")
