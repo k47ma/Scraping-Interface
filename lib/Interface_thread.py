@@ -120,3 +120,13 @@ class MigrateBlogThread(threading.Thread):
         self.parent.start_btn.configure(text="START", image=self.parent.start_icon, command=self.parent.start,
                                         fg="green", state="normal")
         status["CHECKING_STATUS"] = False
+
+
+class MigrateImageThread(threading.Thread):
+    def __init__(self, old_url, new_url):
+        threading.Thread.__init__(self)
+        self.old_url = old_url
+        self.new_url = new_url
+
+    def run(self):
+        pass
