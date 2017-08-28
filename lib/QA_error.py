@@ -6,10 +6,10 @@ from QA_util import entry_print
 
 # print and record the record with type
 def record_error(url, err_type):
-    entry_print("***********************************************")
-    entry_print("ERROR!")
-    entry_print("Cannot find the " + err_type + " for " + url)
-    entry_print("***********************************************")
+    print("***********************************************")
+    print("ERROR!")
+    print("Cannot find the " + err_type + " for " + url)
+    print("***********************************************")
     file = open("result\\error.txt", "a")
     file.write("ERROR!\n")
     file.write("Cannot find the " + err_type + " for " + url + "\n")
