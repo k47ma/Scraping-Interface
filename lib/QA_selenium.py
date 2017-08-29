@@ -36,6 +36,12 @@ def compare_site_selenium(old_url, new_url, progress_var=None, step=100.0):
     if new_url.endswith('/'):
         new_url = new_url[:-1]
 
+    # add http:// before url
+    if not old_url.startswith("http://"):
+        old_url = "http://" + old_url
+    if not new_url.startswith("http://"):
+        new_url = "http://" + new_url
+
     # print out the information for old and new sites
     entry_print("-----------------------------------------------------", True)
     entry_print("Old URL: " + old_url, True)
