@@ -2,7 +2,6 @@
 import tkFont
 import tkMessageBox
 from QA_util import clear_all
-from config import *
 from Interface_event import *
 from Interface_thread import *
 from Interface_timer import TimerFrame
@@ -80,6 +79,19 @@ class App(Tk):
         self.pages["page8"] = page8
         page8.grid(row=0, column=0, sticky=NSEW)
 
+        page9 = Page9(parent=container, controller=self)
+        self.pages["page9"] = page9
+        page9.grid(row=0, column=0, sticky=NSEW)
+
+        page10 = Page10(parent=container, controller=self)
+        self.pages["page10"] = page10
+        page10.grid(row=0, column=0, sticky=NSEW)
+
+        page11 = Page11(parent=container, controller=self)
+        self.pages["page11"] = page11
+        page11.grid(row=0, column=0, sticky=NSEW)
+
+        self.bind("<Escape>", lambda x: self.show_frame("startpage"))
         self.show_frame("startpage")
 
     def show_frame(self, name):
