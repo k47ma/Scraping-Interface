@@ -8,7 +8,5 @@ from lib.QA_util import create_path
 reload(sys)
 sys.setdefaultencoding('UTF8')
 
-create_path()
-
 app = App()
 app.mainloop()

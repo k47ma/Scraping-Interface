@@ -135,13 +135,14 @@ class StartPage(Frame):
         migrate_frame_main.pack(side=TOP, fill=BOTH, expand=True, padx=10, pady=6)
 
         migrate_frame_main.columnconfigure(0, weight=1)
-        migrate_frame_main.columnconfigure(1, weight=1)
+        #migrate_frame_main.columnconfigure(1, weight=1)
+        migrate_frame_main.rowconfigure(0, weight=1)
 
         migrate_frame1 = LabelFrame(migrate_frame_main, text="Migration Options with Selenium")
-        migrate_frame1.grid(row=0, column=0, sticky=NSEW, padx=(0, 6))
+        migrate_frame1.grid(row=0, column=0, sticky=NSEW)
 
-        migrate_frame2 = LabelFrame(migrate_frame_main, text="Migration Options with Python")
-        migrate_frame2.grid(row=0, column=1, sticky=NSEW, padx=(6, 0))
+        #migrate_frame2 = LabelFrame(migrate_frame_main, text="Migration Options with Python")
+        #migrate_frame2.grid(row=0, column=1, sticky=NSEW, padx=(6, 0))
 
         btn_frame = Frame(self)
         btn_frame.pack(side=BOTTOM, fill=X, expand=False)
@@ -200,6 +201,7 @@ class StartPage(Frame):
         p7btn.bind("<Leave>", on_leave)
         p7btn.bind("<ButtonRelease-1>", on_enter)
 
+        """
         p8btn = Button(migrate_frame2, text="Migrate Site", width=30, height=2,
                        command=lambda: controller.show_frame("page8"))
         p8btn.pack(side=TOP, padx=5, pady=(5, 5))
@@ -227,6 +229,7 @@ class StartPage(Frame):
         p11btn.bind("<Enter>", on_enter)
         p11btn.bind("<Leave>", on_leave)
         p11btn.bind("<ButtonRelease-1>", on_enter)
+        """
 
         self.quit_icon = PhotoImage(file="image\\exit.gif")
 
