@@ -40,7 +40,7 @@ def get_soup(url):
 
 
 def test():
-    file = open("C:\Users\kma01\Downloads\essentials.csv", 'r')
+    file = open("essentials.csv", 'r')
     rows = csv.reader(file)
     threadpool = ThreadPool(10)
 
