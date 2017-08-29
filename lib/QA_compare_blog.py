@@ -56,21 +56,27 @@ def compare_blog(old_soup, new_soup, old_url, new_url, browser=None, progress_va
         if post.find('img'):
             old_posts.remove(post)
 
+    old_titles = [post.get_text() for post in old_posts]
+    new_titles = [post.get_text() for post in new_posts]
+
     # missing blog posts
     if len(old_posts) != len(new_posts):
-        entry_print(str(old_posts))
         entry_print("***********************************************")
         entry_print("NUMBER OF BLOG POSTS DIFFERENT!")
         entry_print("Old URL: " + old_url)
         entry_print("New URL: " + new_url)
-        entry_print("Old posts: " + str(len(old_posts)))
-        entry_print("New posts: " + str(len(new_posts)))
+        entry_print("Number of old posts: " + str(len(old_posts)))
+        entry_print("Number of new posts: " + str(len(new_posts)))
+        entry_print("Old posts: " + str(old_titles))
+        entry_print("New posts: " + str(new_titles))
         entry_print("***********************************************")
         detail.write("NUMBER OF BLOG POSTS DIFFERENT!\n")
         detail.write("Old URL: " + old_url + "\n")
         detail.write("New URL: " + new_url + "\n")
-        detail.write("Old posts: " + str(len(old_posts)) + "\n")
-        detail.write("New posts: " + str(len(new_posts)) + "\n")
+        detail.write("Number of old posts: " + str(len(old_posts)) + "\n")
+        detail.write("Number of new posts: " + str(len(new_posts)) + "\n")
+        detail.write("Old posts: " + str(old_titles) + "\n")
+        detail.write("New posts: " + str(new_titles) + "\n")
         detail.write("-----------------------------------------------\n")
         detail.close()
         if progress_var:
