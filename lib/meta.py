@@ -45,11 +45,6 @@ def readNextToken(fileName):
                     return str.strip()
 
 
-username = settings['USER_NAME']
-password = settings['PASSWORD']
-tellPos = 0  # need to reset manually since this does not hit EOF
-
-
 class webThread(threading.Thread):
     'Creates a thread for metadata copying'
 
@@ -132,6 +127,8 @@ def copyMeta(q, session, newSiteName, blogUrl, oldBlogUrl):
 
 
 def login(url):
+    username = settings["USER_NAME"]
+    password = settings["PASSWORD"]
     index = url.find('.com/') + 5  # will always be .com
     urlStart = url[:index]
     session = requests.Session()

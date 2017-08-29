@@ -46,11 +46,6 @@ def readNextToken(fileName):
                     return str.strip()
 
 
-username = settings['PASSWORD']
-password = settings['USER_NAME']
-tellPos = 0  # need to reset manually since this does not hit EOF
-
-
 class contentThread(threading.Thread):
     def __init__(self, session, lock, queue, siteName, newSiteName, blogUrl, libraryHtml):
         threading.Thread.__init__(self)
@@ -116,7 +111,7 @@ def copyContent(session, lock, queue, siteName, newSiteName, blogUrl, libraryHtm
                         j += 1
                 else:
                     if img.has_attr('src') and (
-                                siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
+                                        siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
                         j += 1
             if j and flag:
                 result.write(str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
@@ -193,7 +188,7 @@ def copyContent(session, lock, queue, siteName, newSiteName, blogUrl, libraryHtm
                 flag = True
                 for img in imgs:
                     if img.has_attr('src') and (
-                                siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
+                                        siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
                         length += 1
                 for img in imgs:
                     if img.has_attr('objectid'):
@@ -212,7 +207,7 @@ def copyContent(session, lock, queue, siteName, newSiteName, blogUrl, libraryHtm
                             j += 1
                     else:
                         if img.has_attr('src') and (
-                                    siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
+                                            siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
                             j += 1
                 if j and flag:
                     result.write(str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
@@ -254,7 +249,7 @@ def copyContent(session, lock, queue, siteName, newSiteName, blogUrl, libraryHtm
                     length = 0
                     for img in imgs:
                         if img.has_attr('src') and (
-                                    siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
+                                            siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
                             length += 1
                     for img in imgs:
                         if img.has_attr('objectid'):
@@ -273,7 +268,8 @@ def copyContent(session, lock, queue, siteName, newSiteName, blogUrl, libraryHtm
                                 j += 1
                         else:
                             if img.has_attr('src') and (
-                                        siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
+                                                siteName in img['src'] or 'televox' in img['src'] or img['src'][
+                                                                                                     :1] == '/'):
                                 j += 1
                     anchors = element.find_all('a')
                     for anchor in anchors:
@@ -462,12 +458,15 @@ def getImages(session, url, newUrl, newSiteName, libraryHtml, pageNum=0, parentI
         images.append(imageID)
     if len(images) % 10 == 0 and len(images) != 0:
         pageNum += 1
+        # recursive call to the next page, will add result to this until a non full page emerges
         images.extend(getImages(session, url, newUrl, newSiteName, libraryHtml, pageNum,
-                                parentID))  # recursive call to the next page, will add result to this until a non full page emerges
+                                parentID))
     return images
 
 
 def login(url):
+    username = settings["USER_NAME"]
+    password = settings["PASSWORD"]
     index = url.find('.com/') + 5
     urlStart = url[:index]
     session = requests.Session()
@@ -573,8 +572,8 @@ def submitContent(session, url, content='', title='default', portletNum=0):
     global verticalSite
     if verticalSite:
         inputs = {'ctl00_RadStyleSheetManager1_TSSM': '',
-				  'ctl00_ScriptManager1_TSM': '',
-				  '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$ctl02$ctl46$ctl00$ibTelevoxSaveAsTop',
+                  'ctl00_ScriptManager1_TSM': '',
+                  '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$ctl02$ctl46$ctl00$ibTelevoxSaveAsTop',
                   '__EVENTARGUMENT': 'undefined',
                   '__VIEWSTATE': state,
                   '__VIEWSTATEGENERATOR': stateGenerator,
@@ -582,7 +581,7 @@ def submitContent(session, url, content='', title='default', portletNum=0):
                   'ctl00_ContentPlaceHolder1_RadWindowLoadingContentTree_ClientState': '',
                   'ctl00_ContentPlaceHolder1_RadWindowPermissionControl_ClientState': '',
                   'ctl00_ContentPlaceHolder1_ctl00_RadWND_ClientState': '',
-				  # 'ctl00_ContentPlaceHolder1_ctl01_radmenu_ClientState':'', #not necessary in vertical? not there in test submission
+                  # 'ctl00_ContentPlaceHolder1_ctl01_radmenu_ClientState':'', #not necessary in vertical? not there in test submission
                   'ctl00$ContentPlaceHolder1$ctl02$hfReleaseDate': '',
                   'ctl00$ContentPlaceHolder1$ctl02$hfExiryDate': '',
                   'ctl00$ContentPlaceHolder1$ctl02$ctl46$ctl00$hdRootId': rootID,
@@ -598,7 +597,7 @@ def submitContent(session, url, content='', title='default', portletNum=0):
                   'ctl00_ContentPlaceHolder1_ctl02_ctl46_ctl00_reEditArea_ctl00_dialogOpener_ClientState': '',
                   'ctl00$ContentPlaceHolder1$ctl02$ctl46$ctl00$reEditArea$ctl00': content,
                   'ctl00_ContentPlaceHolder1_ctl02_ctl46_ctl00_reEditArea_ctl00_ClientState': '',
-				  # 'ctl00_ContentPlaceHolder1_ctl02_ctl46_ctl00$ibTelevoxSaveBottom':'Save', #for modifying, also saveasyop at top to savetop if modifying
+                  # 'ctl00_ContentPlaceHolder1_ctl02_ctl46_ctl00$ibTelevoxSaveBottom':'Save', #for modifying, also saveasyop at top to savetop if modifying
                   'ctl00_ContentPlaceHolder1_ctl02_ctl46_ctl00_RadWindowLoadingContentFolderTree_ClientState': ''}
     else:
         inputs = {'ctl00_RadStyleSheetManager1_TSSM': '',
@@ -607,16 +606,16 @@ def submitContent(session, url, content='', title='default', portletNum=0):
                   '__EVENTARGUMENT': 'undefined',
                   '__VIEWSTATE': state,
                   '__VIEWSTATEGENERATOR': stateGenerator,
-				  'ctl00_ContentPlaceHolder1_RadWindowManagerLoadingContentTree_ClientState': '',
-				  'ctl00_ContentPlaceHolder1_RadWindowLoadingContentTree_ClientState': '',
-				  'ctl00_ContentPlaceHolder1_RadWindowPermissionControl_ClientState': '',
-				  'ctl00_ContentPlaceHolder1_ctl00_RadWND_ClientState': '',
-				  'ctl00_ContentPlaceHolder1_ctl01_radmenu_ClientState': '',
-				  'ctl00$ContentPlaceHolder1$ctl07$hfReleaseDate': '',
-				  'ctl00$ContentPlaceHolder1$ctl07$hfExiryDate': '',
-				  'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$hdRootId': rootID,
-				  'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$hdParentSelectedId': parentID,
-				  'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$hdFileName': '',
+                  'ctl00_ContentPlaceHolder1_RadWindowManagerLoadingContentTree_ClientState': '',
+                  'ctl00_ContentPlaceHolder1_RadWindowLoadingContentTree_ClientState': '',
+                  'ctl00_ContentPlaceHolder1_RadWindowPermissionControl_ClientState': '',
+                  'ctl00_ContentPlaceHolder1_ctl00_RadWND_ClientState': '',
+                  'ctl00_ContentPlaceHolder1_ctl01_radmenu_ClientState': '',
+                  'ctl00$ContentPlaceHolder1$ctl07$hfReleaseDate': '',
+                  'ctl00$ContentPlaceHolder1$ctl07$hfExiryDate': '',
+                  'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$hdRootId': rootID,
+                  'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$hdParentSelectedId': parentID,
+                  'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$hdFileName': '',
                   'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$hdSelectedFileId': '0',
                   'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$hdPopupUrl': popupUrl,
                   'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$hdInlineEditor': 'false',
@@ -627,7 +626,7 @@ def submitContent(session, url, content='', title='default', portletNum=0):
                   'ctl00_ContentPlaceHolder1_ctl07_ctl46_ctl00_reEditArea_ctl00_dialogOpener_ClientState': '',
                   'ctl00$ContentPlaceHolder1$ctl07$ctl46$ctl00$reEditArea$ctl00': content,
                   'ctl00_ContentPlaceHolder1_ctl07_ctl46_ctl00_reEditArea_ctl00_ClientState': '',
-				  # 'ctl00_ContentPlaceHolder1_ctl07_ctl46_ctl00$ibTelevoxSaveBottom':'Save', #for modifying, also saveasyop at top to savetop if modifying
+                  # 'ctl00_ContentPlaceHolder1_ctl07_ctl46_ctl00$ibTelevoxSaveBottom':'Save', #for modifying, also saveasyop at top to savetop if modifying
                   'ctl00_ContentPlaceHolder1_ctl07_ctl46_ctl00_RadWindowLoadingContentFolderTree_ClientState': ''}
     newReq = session.post(submitUrl, inputs)  # span with onclick starts with window.location=, one for every portlet
     newReq.raise_for_status()
@@ -702,8 +701,9 @@ def modifyBlogPost(session, url, content='', summary='', date=''):
         else:
             content = ''
     lastModifiedDate = \
-    editSoup.find('input', {'name': 'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_pageLastModified_date'})[
-        'value']
+        editSoup.find('input',
+                      {'name': 'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_pageLastModified_date'})[
+            'value']
     fullLastModifiedDate = editSoup.find('input', {
         'name': 'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_pageLastModified_date$dateInput'})['value']
     lastModifiedDateList = editSoup.find('input', {
@@ -711,13 +711,13 @@ def modifyBlogPost(session, url, content='', summary='', date=''):
     publishedDateDict = '{"enabled":true,"emptyMessage":"","validationText":"' + date + '-00-00-00","valueAsString":"' + date + '-00-00-00","minDateStr":"1000-01-01-00-00-00","maxDateStr":"9999-12-31-00-00-00","lastSetTextBoxValue":"' + fullDate + '"}'
     modifiedDateDict = '{"enabled":false,"emptyMessage":"","validationText":"' + lastModifiedDate + '-00-00-00","valueAsString":"' + lastModifiedDate + '-00-00-00","minDateStr":"1000-01-01-00-00-00","maxDateStr":"9999-12-31-00-00-00","lastSetTextBoxValue":"' + fullLastModifiedDate + '"}'
     data = {'ctl00_RadStyleSheetManager1_TSSM': '',
-			'ctl00_ScriptManager1_TSM': '',
-			'__EVENTTARGET': '',
-			'__EVENTARGUMENT': '',
-			'__VIEWSTATE': viewState,
-			'__VIEWSTATEGENERATOR': generator,
-			'ctl00_ContentPlaceHolder1_RadWindowManagerLoadingContentTree_ClientState': '',
-			'ctl00_ContentPlaceHolder1_RadWindowLoadingContentTree_ClientState': '',
+            'ctl00_ScriptManager1_TSM': '',
+            '__EVENTTARGET': '',
+            '__EVENTARGUMENT': '',
+            '__VIEWSTATE': viewState,
+            '__VIEWSTATEGENERATOR': generator,
+            'ctl00_ContentPlaceHolder1_RadWindowManagerLoadingContentTree_ClientState': '',
+            'ctl00_ContentPlaceHolder1_RadWindowLoadingContentTree_ClientState': '',
             'ctl00_ContentPlaceHolder1_RadWindowPermissionControl_ClientState': '',
             'ctl00_ContentPlaceHolder1_ctl00_RadWND_ClientState': '',
             'ctl00_ContentPlaceHolder1_ctl01_radmenu_ClientState': '',
@@ -726,15 +726,15 @@ def modifyBlogPost(session, url, content='', summary='', date=''):
             'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$hfClientId': '',
             'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_title': title,  # will need to extract this
             'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_featured_image_link': image,
-			# will need to extract this
+            # will need to extract this
             'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_featured_image_hiddenId': '',
             'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_image_title': imageTitle,  # need to extract
             'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_summary': summary,  # param
             'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_published_date': date,  # param, form yyyy-mm-dd
             'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_published_date$dateInput': fullDate,
-			# param form dd month, yyyy (may have to be different from other date) convert from first type
+            # param form dd month, yyyy (may have to be different from other date) convert from first type
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_field_published_date_dateInput_ClientState': publishedDateDict,
-			# 2nd form
+            # 2nd form
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_field_published_date_calendar_SD': '[]',
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_field_published_date_calendar_AD': dateList,
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_field_published_date_ClientState': '{"minDateStr":"1000-01-01-00-00-00","maxDateStr":"9999-12-31-00-00-00"}',
@@ -744,10 +744,10 @@ def modifyBlogPost(session, url, content='', summary='', date=''):
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_field_body_ctl00_ClientState': '',
             'ctl00$ContentPlaceHolder1$ctl' + siteNum + '$ctl47$field_pageLastModified_date': lastModifiedDate,
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_field_pageLastModified_date_dateInput_ClientState': modifiedDateDict,
-			# extract likely needed, treat as other dict, bring in
+            # extract likely needed, treat as other dict, bring in
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_field_pageLastModified_date_calendar_SD': '[]',
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_field_pageLastModified_date_calendar_AD': lastModifiedDateList,
-			# might need to extract this due to last value
+            # might need to extract this due to last value
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_field_pageLastModified_date_ClientState': '{"minDateStr":"1000-01-01-00-00-00","maxDateStr":"9999-12-31-00-00-00"}',
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_RadWM_ClientState': '',
             'ctl00_ContentPlaceHolder1_ctl' + siteNum + '_ctl47_RadWindowLoadingImageManager_ClientState': '',

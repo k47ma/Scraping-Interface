@@ -136,4 +136,3 @@ class MigrateImageThread(threading.Thread):
         page.createSitePages(self.old_url, self.new_url)
         content.getSiteContent(self.old_url, self.new_url)
         meta.getSiteMeta(self.old_url, self.new_url)
-

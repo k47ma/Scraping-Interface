@@ -46,11 +46,6 @@ def readNextToken(fileName):
                     return str.strip()
 
 
-username = settings['USER_NAME']
-password = settings['PASSWORD']
-tellPos = 0  # need to reset manually since this does not hit EOF
-
-
 class listThread(threading.Thread):
     def __init__(self, session, lock, newMenu, siteName, newSiteName, blogUrl, returnList):
         threading.Thread.__init__(self)
@@ -271,6 +266,8 @@ def modifyBlogPost(session, url, content='', title='', summary='', fullDate=''):
 
 
 def login(url):
+    username = settings["USER_NAME"]
+    password = settings["PASSWORD"]
     index = url.find('.com/') + 5
     urlStart = url[:index]
     session = requests.Session()
@@ -295,6 +292,7 @@ def login(url):
 
 def addPage(session, parentUrl, title, pageName, pageType='content', redirectUrl='', parentIsHomepage=False):
     'Adds either a content space page or an external link page given a logged in session'
+    username = settings["USER_NAME"]
     try:
         parentSite = session.get(parentUrl)
         parentSite.raise_for_status()
@@ -417,9 +415,9 @@ def addPage(session, parentUrl, title, pageName, pageType='content', redirectUrl
         elif err.response.status_code == 302:
             pass
         else:
-            result.write(err.reponse)
+            result.write(err.response)
             result.write('\r\n')
-            result.write('Page addition failed for: ' + parentUrl + ' with ' + title + ' and ' + namei + '\r\n')
+            result.write('Page addition failed for: ' + parentUrl + ' with ' + title + ' and ' + name + '\r\n')
 
 
 def createSitePages(url, newUrl=''):
@@ -580,7 +578,7 @@ def createSitePages(url, newUrl=''):
     while len(returnList) < len(topLevelList):
         pass
     for thread in topThreads:
-        thread.join
+        thread.join()
     # menus should be complete at this point, add miscellaneous pages, then blog posts, main blog page should already be made
     queue = Queue.Queue()
     miscThreads = []
@@ -597,7 +595,7 @@ def createSitePages(url, newUrl=''):
     global exit
     exit = True
     for thread in miscThreads:
-        thread.join
+        thread.join()
     blogNum = 0
     for blogPost in blogList:
         lastSlash = blogPost.rfind('/', 0, len(blogPost) - 1) + 1  # index after last slash
@@ -634,7 +632,7 @@ def makeMultipleSitesPages(txt):
     doubleList = []
     global verticalSite
     global exit
-    while (True):
+    while True:
         readUrl = readNextToken(txt)
         if readUrl == 'EOF':
             break

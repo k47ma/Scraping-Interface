@@ -45,12 +45,9 @@ def readNextToken(fileName):
                     return str.strip()
 
 
-username = settings['USER_NAME']
-password = settings['PASSWORD']
-tellPos = 0  # since it does not reach EOF, need to reset manually
-
-
 def login(url):
+    username = settings["USER_NAME"]
+    password = settings["PASSWORD"]
     session = requests.Session()
     index = url.find('.com/') + 5
     urlStart = url[:index]
