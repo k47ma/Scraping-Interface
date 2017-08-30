@@ -6,10 +6,6 @@ from QA_selenium import *
 from Migrator_subpage import migrate_subpages
 from Migrator_metadata import migrate_meta
 from Migrator_blog import migrate_blog
-import meta
-import content
-import page
-import upload
 
 # module for threading events
 
@@ -124,16 +120,59 @@ class MigrateBlogThread(threading.Thread):
                                         fg="green", state="normal")
         status["CHECKING_STATUS"] = False
 
-
-class MigrateImageThread(threading.Thread):
-    def __init__(self, old_url, new_url):
+"""
+class MigrateSiteThread(threading.Thread):
+    def __init__(self, old_url, new_url, parent):
         threading.Thread.__init__(self)
         self.old_url = old_url
         self.new_url = new_url
+        self.parent = parent
 
     def run(self):
-        upload.migrateSiteImages(self.old_url, self.new_url)
-        page.createSitePages(self.old_url, self.new_url)
-        content.getSiteContent(self.old_url, self.new_url)
-        meta.getSiteMeta(self.old_url, self.new_url)
+        migrateSiteImages(self.old_url, self.new_url)
+        createSitePages(self.old_url, self.new_url)
+        getSiteContent(self.old_url, self.new_url)
+        getSiteMeta(self.old_url, self.new_url)
+        self.parent.start_btn["state"] = "normal"
+        status["CHECKING_STATUS"] = False
 
+
+class MigrateImageThread(threading.Thread):
+    def __init__(self, old_url, new_url, parent):
+        threading.Thread.__init__(self)
+        self.old_url = old_url
+        self.new_url = new_url
+        self.parent = parent
+
+    def run(self):
+        migrateSiteImages(self.old_url, self.new_url)
+        self.parent.start_btn["state"] = "normal"
+        status["CHECKING_STATUS"] = False
+
+
+class MigrateContentThread(threading.Thread):
+    def __init__(self, old_url, new_url, parent):
+        threading.Thread.__init__(self)
+        self.old_url = old_url
+        self.new_url = new_url
+        self.parent = parent
+
+    def run(self):
+        createSitePages(self.old_url, self.new_url)
+        getSiteContent(self.old_url, self.new_url)
+        self.parent.start_btn["state"] = "normal"
+        status["CHECKING_STATUS"] = False
+
+
+class MigrateMetadataThread(threading.Thread):
+    def __init__(self, old_url, new_url, parent):
+        threading.Thread.__init__(self)
+        self.old_url = old_url
+        self.new_url = new_url
+        self.parent = parent
+
+    def run(self):
+        getSiteMeta(self.old_url, self.new_url)
+        self.parent.start_btn["state"] = "normal"
+        status["CHECKING_STATUS"] = False
+"""
