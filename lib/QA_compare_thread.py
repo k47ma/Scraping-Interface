@@ -101,12 +101,19 @@ def compare_site_thread(old_url, new_url, progress_var=None, step=100.0, thread_
     if progress_var:
         progress_var.set(progress_var.get() + setup_step)
 
+    # print out site information
+    entry_print("Site Information: ", True)
+
     # calculate the step for each page
     step *= 0.96
     if blog_exists:
         page_step = step / 2 / (len(sites) + 1)
+        entry_print("Old Blog: " + old_blog, True)
+        entry_print("New Blog: " + new_blog, True)
     else:
         page_step = step / (len(sites) + 1)
+
+    entry_print("Number of non-blog pages: " + str(len(sites)), True)
 
     # check the homepage
     thread_pool.add_task(compare_homepage, old_url=old_url, new_url=new_url, progress_var=progress_var,

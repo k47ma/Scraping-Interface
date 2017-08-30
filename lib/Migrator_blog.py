@@ -46,7 +46,7 @@ def get_blog_posts(old_blog):
         summary_container = post.find('p', class_=False)
         if summary_container:
             summary = summary_container.get_text()
-            parsed_post['summary'] = summary
+            parsed_post['summary'] = summary.strip()
         else:
             parsed_post['summary'] = None
 
@@ -70,7 +70,7 @@ def get_article(old_post):
         image['src'] = ""
 
     text = unicode(article)
-    text = text.replace("’", "'").replace("“", "\"").replace("”", "\"")
+    text = text.replace("’", "'").replace("“", "\"").replace("”", "\"").strip()
 
     return text
 
