@@ -13,8 +13,7 @@ from QA_util import create_path
 # testing support for sites that change siteName, this is already tested a bit, but bugs still could emerge
 
 create_path()
-result = open('result\\uploadResult.txt',
-              'w')  # lazy, easier than passing it through all functions, will correct later, I want this file open the entire time; garbage collection will close it for now, addign with for wach write will come later
+result = open('result\\uploadResult.txt', 'w')
 tellPos = 0  # need this to remain constant across multiple calls of the function, resetting only at the end of the file
 
 
@@ -47,8 +46,8 @@ def readNextToken(fileName):
 
 
 def login(url):
-    username = settings['PASSWORD']
-    password = settings['USER_NAME']
+    username = settings["USER_NAME"]
+    password = settings["PASSWORD"]
     session = requests.Session()
     index = url.find('.com/') + 5
     urlStart = url[:index]
@@ -94,8 +93,8 @@ def uploadImages(session, url, images, siteName, newSiteName, rootFolderID):
                         'mxupload': '100',
                         'objectid': '0',
                         'isRevision': 'false'}
-                request = session.post(newUrl + 'Common/controls/multipleFileUpload/plupload/fileUploadHandler',
-                                       data=data, files=files)  # urlstart should include / after .com
+                request = session.post(newUrl + 'Common/controls/multipleFileUpload/plupload/fileUploadHandler', data=data, files=files)
+                # urlstart should include / after .com
                 request.raise_for_status()
                 print request
         except requests.exceptions.HTTPError as err:
