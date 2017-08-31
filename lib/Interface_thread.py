@@ -132,11 +132,24 @@ class MigrateSiteThread(threading.Thread):
         self.new_url = new_url
         self.parent = parent
 
+        # format the url before passing it to function
+        if not self.old_url.startswith("http://"):
+            self.old_url = "http://" + self.old_url
+        if not self.new_url.startswith("http://"):
+            self.new_url = "http://" + self.new_url
+        if not self.old_url.endswith("/"):
+            self.old_url += "/"
+        if not self.new_url.endswith("/"):
+            self.new_url += "/"
+
     def run(self):
-        migrateSiteImages(self.old_url, self.new_url)
-        createSitePages(self.old_url, self.new_url)
-        getSiteContent(self.old_url, self.new_url)
-        getSiteMeta(self.old_url, self.new_url)
+        try:
+            migrateSiteImages(self.old_url, self.new_url)
+            createSitePages(self.old_url, self.new_url)
+            getSiteContent(self.old_url, self.new_url)
+            getSiteMeta(self.old_url, self.new_url)
+        except Exception:
+            pass
         self.parent.start_btn["state"] = "normal"
         status["CHECKING_STATUS"] = False
 
@@ -148,8 +161,21 @@ class MigrateImageThread(threading.Thread):
         self.new_url = new_url
         self.parent = parent
 
+        # format the url before passing it to function
+        if not self.old_url.startswith("http://"):
+            self.old_url = "http://" + self.old_url
+        if not self.new_url.startswith("http://"):
+            self.new_url = "http://" + self.new_url
+        if not self.old_url.endswith("/"):
+            self.old_url += "/"
+        if not self.new_url.endswith("/"):
+            self.new_url += "/"
+
     def run(self):
-        migrateSiteImages(self.old_url, self.new_url)
+        try:
+            migrateSiteImages(self.old_url, self.new_url)
+        except Exception:
+            pass
         self.parent.start_btn["state"] = "normal"
         status["CHECKING_STATUS"] = False
 
@@ -161,9 +187,22 @@ class MigrateContentThread(threading.Thread):
         self.new_url = new_url
         self.parent = parent
 
+        # format the url before passing it to function
+        if not self.old_url.startswith("http://"):
+            self.old_url = "http://" + self.old_url
+        if not self.new_url.startswith("http://"):
+            self.new_url = "http://" + self.new_url
+        if not self.old_url.endswith("/"):
+            self.old_url += "/"
+        if not self.new_url.endswith("/"):
+            self.new_url += "/"
+
     def run(self):
-        createSitePages(self.old_url, self.new_url)
-        getSiteContent(self.old_url, self.new_url)
+        try:
+            createSitePages(self.old_url, self.new_url)
+            getSiteContent(self.old_url, self.new_url)
+        except Exception:
+            pass
         self.parent.start_btn["state"] = "normal"
         status["CHECKING_STATUS"] = False
 
@@ -175,7 +214,20 @@ class MigrateMetadataThread(threading.Thread):
         self.new_url = new_url
         self.parent = parent
 
+        # format the url before passing it to function
+        if not self.old_url.startswith("http://"):
+            self.old_url = "http://" + self.old_url
+        if not self.new_url.startswith("http://"):
+            self.new_url = "http://" + self.new_url
+        if not self.old_url.endswith("/"):
+            self.old_url += "/"
+        if not self.new_url.endswith("/"):
+            self.new_url += "/"
+
     def run(self):
-        getSiteMeta(self.old_url, self.new_url)
+        try:
+            getSiteMeta(self.old_url, self.new_url)
+        except Exception:
+            pass
         self.parent.start_btn["state"] = "normal"
         status["CHECKING_STATUS"] = False
