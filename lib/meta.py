@@ -128,8 +128,8 @@ def copyMeta(q, session, newSiteName, blogUrl, oldBlogUrl):
 
 
 def login(url):
-    username = settings['PASSWORD']
-    password = settings['USER_NAME']
+    username = settings['USER_NAME']
+    password = settings['PASSWORD']
     index = url.find('.com/') + 5  # will always be .com
     urlStart = url[:index]
     session = requests.Session()

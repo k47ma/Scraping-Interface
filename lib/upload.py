@@ -96,7 +96,6 @@ def uploadImages(session, url, images, siteName, newSiteName, rootFolderID):
                 request = session.post(newUrl + 'Common/controls/multipleFileUpload/plupload/fileUploadHandler', data=data, files=files)
                 # urlstart should include / after .com
                 request.raise_for_status()
-                print request
         except requests.exceptions.HTTPError as err:
             print err.response.status_code
             result.write('Image upload failed for: ' + url + '\r\n')

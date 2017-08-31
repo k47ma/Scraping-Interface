@@ -278,8 +278,8 @@ def modifyBlogPost(session, url, content='', title='', summary='', fullDate=''):
 
 
 def login(url):
-    username = settings['PASSWORD']
-    password = settings['USER_NAME']
+    username = settings['USER_NAME']
+    password = settings['PASSWORD']
     index = url.find('.com/') + 5
     urlStart = url[:index]
     session = requests.Session()
@@ -304,7 +304,7 @@ def login(url):
 
 def addPage(session, parentUrl, title, pageName, pageType='content', redirectUrl='', parentIsHomepage=False):
     'Adds either a content space page or an external link page given a logged in session'
-    username = settings['PASSWORD']
+    username = settings['USER_NAME']
     try:
         parentSite = session.get(parentUrl)
         parentSite.raise_for_status()

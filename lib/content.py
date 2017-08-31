@@ -462,8 +462,8 @@ def getImages(session, url, newUrl, newSiteName, libraryHtml):
 
 
 def login(url):
-    username = settings['PASSWORD']
-    password = settings['USER_NAME']
+    username = settings['USER_NAME']
+    password = settings['PASSWORD']
     index = url.find('.com/') + 5
     urlStart = url[:index]
     session = requests.Session()
