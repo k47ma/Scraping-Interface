@@ -8,8 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Migrator_util import login
-from config import settings
-from QA_util import migration_print
+from config import *
+from QA_util import migration_print, get_domain
 
 # module for migrating blog pages
 
@@ -61,6 +61,10 @@ def get_article(old_post):
     text = source_code.text
     soup = BeautifulSoup(text, "html.parser")
 
+    domain = get_domain(old_post)
+    if not domain:
+        domain = ""
+
     article = soup.find('article')
     header = article.find('header')
     header.extract()
@@ -68,6 +72,12 @@ def get_article(old_post):
     bad_images = soup.find_all('img', src=re.compile("^data:"))
     for image in bad_images:
         image['src'] = ""
+
+    # change link to friendly url
+    links = soup.find_all('a', href=True)
+    for link in links:
+        href = link['href']
+        link['href'] = href.replace("http://www." + domain + ".com", "").replace("http://www." + domain + ".ca", "").replace("http://www." + domain + ".televox.iapps.com", "")
 
     text = unicode(article)
     text = text.replace("’", "'").replace("“", "\"").replace("”", "\"").strip()
@@ -77,6 +87,10 @@ def get_article(old_post):
 
 # migrate post from old site
 def migrate_post(old_post, new_blog, browser):
+    # check program status
+    if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
+        return
+
     wait = WebDriverWait(browser, 20)
     browser.get(new_blog)
 
@@ -187,6 +201,10 @@ def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
     old_url = old_blog.strip()
     new_url = new_blog.strip()
 
+    # check program status
+    if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
+        return
+
     # remove the "/" at the end of the url
     if old_url[-1] == '/':
         old_url = old_url[:-1]
@@ -204,6 +222,10 @@ def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
     migration_print("Old URL: " + old_url)
     migration_print("New URL: " + new_url)
     migration_print("-----------------------------------------------------")
+
+    # check program status
+    if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
+        return
 
     # create new webdriver
     browser = webdriver.Chrome(executable_path=settings["EXECUTABLE_PATH"])
@@ -227,6 +249,10 @@ def migrate_blog(old_blog, new_blog, progress_var=None, step=100.0):
     blog_step = step / len(blog_posts)
 
     for post in blog_posts:
+        # check program status
+        if status["INTERFACE_MODE"] and not status["CHECKING_STATUS"]:
+            return
+
         migrate_post(post, new_url, browser)
 
         migration_print('\"' + post['title'][0] + "\" migrated!")

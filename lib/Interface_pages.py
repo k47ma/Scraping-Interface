@@ -993,7 +993,7 @@ class Page7(Frame):
         quit_btn.pack(side=RIGHT, padx=6, pady=6)
 
         self.start_icon = PhotoImage(file="image\\start.gif")
-        self.stop_btn = PhotoImage(file="image\\stop.gif")
+        self.stop_icon = PhotoImage(file="image\\stop.gif")
         self.start_btn = Button(frame4, text="START", image=self.start_icon, compound=LEFT, command=self.start,
                                 fg="#399656", font=("Arial", 9, "bold"))
         self.start_btn.pack(side=RIGHT, padx=6, pady=6)
@@ -1014,7 +1014,10 @@ class Page7(Frame):
             return
 
         status["CURRENT_ENTRY"] = self.result
+        status["CHECKING_STATUS"] = True
         self.progress_var.set(0)
+
+        self.start_btn.configure(text="STOP", image=self.stop_icon, command=self.stop, fg="red")
 
         self.result.insert(END, "-----------------------------------------------------\nStart migrating...\n")
         thread = MigrateBlogThread(self.entry1.get(), self.entry2.get(), self)
