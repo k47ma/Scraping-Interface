@@ -151,196 +151,196 @@ def copyContent(session, lock, queue, siteName, newSiteName, blogUrl, libraryHtm
                     anchor['href'] = href[siteUrlEnd:pageNameSlash]
                 else:
                     anchor['href'] = href[siteUrlEnd:]
-        content = str(article)
-        # try:
-        modifyBlogPost(session, newUrl, content)
-    # except Exception, e:
-    #	print str(e)
-    #	print url + ' failed. Check if page is missing. Home page will not work'
-    else:
-        startIndex = url.find('://')  # determine if http or https
-        friendlyIndex = url.find('.com/') + 5  # finds .com start, goes just after it
-        if friendlyIndex == 4:  # cannot find .com(-1) + 5
-            friendlyIndex = url.find('.net/') + 5  # finds .net start, goes just after it
-        if friendlyIndex == 4:  # cannot find .com(-1) + 5
-            friendlyIndex = url.find('.org/') + 5
-        if friendlyIndex == 4:  # cannot find .com(-1) + 5
-            friendlyIndex = url.find('.us/') + 4
-        if friendlyIndex == 3:  # cannot find .com(-1) + 5
-            friendlyIndex = url.find('.com.au/') + len('.com.au/')
-        newUrlFull = url[:startIndex] + '://' + newSiteName + '.televox.west.com/' + url[friendlyIndex:]
-        lastSlash = url.rfind('/')
-        if len(url[lastSlash:]) > 50:
-            newUrl = newUrlFull[:newUrlFull.rfind('/', 0, len(
-                newUrlFull) - 1) + 51]  # Assuming only last portion will exceed 50 chars, extra 1 gets past slash
-        else:
-            newUrl = newUrlFull  # python does not allow for strings to be modified (can be added to though, new copies can be made)
-        try:
-            print newUrl
-            newSite = session.get(newUrl + '?action=design')
-            newSite.raise_for_status()
-        except:
-            print 'New url not there for: ' + url
-            result.write('New url not there for: ' + url + '\r\n')
-            return
-        newHtml = newSite.content
-        newSoup = BeautifulSoup(newHtml, 'html.parser')
-        spans = newSoup.find_all('span')
-        for span in spans:  # this detects the presence of existing portlets, stops if one is there
-            if span.has_attr('onclick') and 'window.location' in span['onclick']:
-                return
-        contentDiv = soup.find('div', {'id': 'content'})
-        divs = contentDiv.find_all('div')
-        iappsContainers = []
-        for div in divs:
-            if div.has_attr('class') and (
-                    div['class'] == 'iapps-container-container' or div['class'] == [u'iapps-container-container']):
-                iappsContainers.append(div)
-            if div.has_attr('id') and 'TxtContentOverview_ctl' in div['id']:
-                iappsContainers.append(div)
-        if len(iappsContainers) == 0:
-            element = contentDiv.find('p')
-            while element.name != 'div' or not element.has_attr('id') or 'ct' not in element[
-                'id'] or element.parent == None:
-                element = element.parent
-            imgs = element.find_all('img')
-            migratedImages = getImages(session, url, newUrl, newSiteName, libraryHtml)
-            j = 0
-            length = 0
-            flag = True
-            for img in imgs:
-                if img.has_attr('src') and (
-                            siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
-                    length += 1
-            for img in imgs:
-                if img.has_attr('objectid'):
-                    del (img['objectid'])
-                if img.has_attr('imagesiteid'):
-                    del (img['imagesiteid'])
-                if not img.has_attr('alt') or img['alt'] == '':
-                    imgNameStart = img['src'].rfind('/') + 1
-                    img['alt'] = img['src'][imgNameStart:]
-                if (len(migratedImages) == length or len(migratedImages) == 10) and j < 10:
-                    flag = False
-                    if img.has_attr('src') and (siteName in img['src'] or 'televox' in img['src'] or img['src'][
-                                                                                                     :1] == '/'):  # relying on shortcircuiting to save me if no src present
-                        img['src'] = '/common/pages/UserFile.aspx?fileId=' + migratedImages[
-                            j]  # if even one of the image's src was fixed before; disaster, ASSUMES ORDER
-                        j += 1
+                content = str(article)
+                # try:
+                modifyBlogPost(session, newUrl, content)
+            # except Exception, e:
+            #	print str(e)
+            #	print url + ' failed. Check if page is missing. Home page will not work'
+            else:
+                startIndex = url.find('://')  # determine if http or https
+                friendlyIndex = url.find('.com/') + 5  # finds .com start, goes just after it
+                if friendlyIndex == 4:  # cannot find .com(-1) + 5
+                    friendlyIndex = url.find('.net/') + 5  # finds .net start, goes just after it
+                if friendlyIndex == 4:  # cannot find .com(-1) + 5
+                    friendlyIndex = url.find('.org/') + 5
+                if friendlyIndex == 4:  # cannot find .com(-1) + 5
+                    friendlyIndex = url.find('.us/') + 4
+                if friendlyIndex == 3:  # cannot find .com(-1) + 5
+                    friendlyIndex = url.find('.com.au/') + len('.com.au/')
+                newUrlFull = url[:startIndex] + '://' + newSiteName + '.televox.west.com/' + url[friendlyIndex:]
+                lastSlash = url.rfind('/')
+                if len(url[lastSlash:]) > 50:
+                    newUrl = newUrlFull[:newUrlFull.rfind('/', 0, len(
+                        newUrlFull) - 1) + 51]  # Assuming only last portion will exceed 50 chars, extra 1 gets past slash
                 else:
-                    if img.has_attr('src') and (
-                                siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
-                        j += 1
-            if j and flag:
-                print str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
-                    migratedImages)
-                result.write(str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
-                    migratedImages) + '\r\n')
-            anchors = element.find_all('a')
-            for anchor in anchors:
-                href = anchor['href']
-                if href[:1] == '/':
-                    pageNameSlash = href.rfind('/', 0, len(href) - 1)
-                    pageName = href[pageNameSlash:].replace('/', '')
-                    possibleDuplicate = href[href.rfind('/', 0, pageNameSlash):pageNameSlash].replace('/', '')
-                    if pageName == possibleDuplicate:
-                        anchor['href'] = href[:pageNameSlash]
-                        href = anchor['href']
-                if siteName in href and 'facebook' not in href and 'File' not in href and 'Image' not in href and 'Library' not in href and 'mailto:' not in href:
-                    href = anchor['href']
-                    siteUrlEnd = href.find('/', href.find(siteName))
-                    if siteUrlEnd == -1:
-                        anchor['href'] = '/'
-                        continue
-                    pageNameSlash = href.rfind('/', 0, len(href) - 1)
-                    pageName = href[pageNameSlash:].replace('/', '')
-                    possibleDuplicate = href[href.rfind('/', 0, pageNameSlash):pageNameSlash].replace('/', '')
-                    if pageName == possibleDuplicate:
-                        anchor['href'] = href[siteUrlEnd:pageNameSlash]
-                    else:
-                        anchor['href'] = href[siteUrlEnd:]
-            content = str(element)
-            title = url[friendlyIndex:]
-            try:
-                if content != None:
-                    addPortlet(session, newUrl)
-                    submitContent(session, newUrl, content, title)
-            except Exception, e:
-                print str(e)
-                print url + ' failed. Check if page is missing. Home page will not work'
-                result.write(str(e) + '\r\n')
-                result.write(url + ' failed. Check if page is missing. Home page will not work\r\n')
-        else:
-            imgs = []
-            j = 0
-            flag = True
-            for iappsContainer in iappsContainers:
-                imgs.extend(iappsContainer.find_all('img'))
-            for i in range(0, len(iappsContainers)):
-                element = iappsContainers[i]
-                migratedImages = getImages(session, url, newUrl, newSiteName, libraryHtml)
-                length = 0
-                for img in imgs:
-                    if img.has_attr('src') and (
-                                siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
-                        length += 1
-                for img in imgs:
-                    if img.has_attr('objectid'):
-                        del (img['objectid'])
-                    if img.has_attr('imagesiteid'):
-                        del (img['imagesiteid'])
-                    if not img.has_attr('alt') or img['alt'] == '':
-                        imgNameStart = img['src'].rfind('/') + 1
-                        img['alt'] = img['src'][imgNameStart:]
-                    if (len(migratedImages) == length or len(migratedImages) == 10) and j < 10:
-                        flag = False
-                        if img.has_attr('src') and (siteName in img['src'] or 'televox' in img['src'] or img['src'][
-                                                                                                         :1] == '/'):  # relying on shortcircuiting to save me if no src present
-                            img['src'] = '/common/pages/UserFile.aspx?fileId=' + migratedImages[
-                                j]  # if even one of the image's src was fixed before; disaster, ASSUMES ORDER
-                            j += 1
-                    else:
+                    newUrl = newUrlFull  # python does not allow for strings to be modified (can be added to though, new copies can be made)
+                try:
+                    print newUrl
+                    newSite = session.get(newUrl + '?action=design')
+                    newSite.raise_for_status()
+                except:
+                    print 'New url not there for: ' + url
+                    result.write('New url not there for: ' + url + '\r\n')
+                    return
+                newHtml = newSite.content
+                newSoup = BeautifulSoup(newHtml, 'html.parser')
+                spans = newSoup.find_all('span')
+                for span in spans:  # this detects the presence of existing portlets, stops if one is there
+                    if span.has_attr('onclick') and 'window.location' in span['onclick']:
+                        return
+                contentDiv = soup.find('div', {'id': 'content'})
+                divs = contentDiv.find_all('div')
+                iappsContainers = []
+                for div in divs:
+                    if div.has_attr('class') and (
+                            div['class'] == 'iapps-container-container' or div['class'] == [u'iapps-container-container']):
+                        iappsContainers.append(div)
+                    if div.has_attr('id') and 'TxtContentOverview_ctl' in div['id']:
+                        iappsContainers.append(div)
+                if len(iappsContainers) == 0:
+                    element = contentDiv.find('p')
+                    while element.name != 'div' or not element.has_attr('id') or 'ct' not in element[
+                        'id'] or element.parent == None:
+                        element = element.parent
+                    imgs = element.find_all('img')
+                    migratedImages = getImages(session, url, newUrl, newSiteName, libraryHtml)
+                    j = 0
+                    length = 0
+                    flag = True
+                    for img in imgs:
                         if img.has_attr('src') and (
                                     siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
-                            j += 1
-                anchors = element.find_all('a')
-                for anchor in anchors:
-                    href = anchor['href']
-                    if href[:1] == '/':
-                        pageNameSlash = href.rfind('/', 0, len(href) - 1)
-                        pageName = href[pageNameSlash:].replace('/', '')
-                        possibleDuplicate = href[href.rfind('/', 0, pageNameSlash):pageNameSlash].replace('/', '')
-                        if pageName == possibleDuplicate:
-                            anchor['href'] = href[:pageNameSlash]
-                            href = anchor['href']
-                    if siteName in href and 'facebook' not in href and 'File' not in href and 'Image' not in href and 'Library' not in href and 'mailto:' not in href:
-                        siteUrlEnd = href.find('/', href.find(siteName))
-                        if siteUrlEnd == -1:
-                            anchor['href'] = '/'
-                            continue
-                        pageNameSlash = href.rfind('/', 0, len(href) - 1)
-                        pageName = href[pageNameSlash:].replace('/', '')
-                        possibleDuplicate = href[href.rfind('/', 0, pageNameSlash):pageNameSlash].replace('/', '')
-                        if pageName == possibleDuplicate:
-                            anchor['href'] = href[siteUrlEnd:pageNameSlash]
+                            length += 1
+                    for img in imgs:
+                        if img.has_attr('objectid'):
+                            del (img['objectid'])
+                        if img.has_attr('imagesiteid'):
+                            del (img['imagesiteid'])
+                        if not img.has_attr('alt') or img['alt'] == '':
+                            imgNameStart = img['src'].rfind('/') + 1
+                            img['alt'] = img['src'][imgNameStart:]
+                        if (len(migratedImages) == length or len(migratedImages) == 10) and j < 10:
+                            flag = False
+                            if img.has_attr('src') and (siteName in img['src'] or 'televox' in img['src'] or img['src'][
+                                                                                                             :1] == '/'):  # relying on shortcircuiting to save me if no src present
+                                img['src'] = '/common/pages/UserFile.aspx?fileId=' + migratedImages[
+                                    j]  # if even one of the image's src was fixed before; disaster, ASSUMES ORDER
+                                j += 1
                         else:
-                            anchor['href'] = href[siteUrlEnd:]
-                content = str(element)
-                title = url[friendlyIndex:]
-                if i > 0:
-                    title += str(i)
-                try:
-                    if content != None:
-                        addPortlet(session, newUrl, 'content', i)
-                        submitContent(session, newUrl, content, title, i)
-                except:
-                    print url + ' failed. Check if page is missing.'
-                    result.write(url + ' failed. Check if page is missing.\r\n')
-            if j and flag:
-                print str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
-                    migratedImages)
-                result.write(str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
-                    migratedImages) + '\r\n')
+                            if img.has_attr('src') and (
+                                        siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
+                                j += 1
+                    if j and flag:
+                        print str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
+                            migratedImages)
+                        result.write(str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
+                            migratedImages) + '\r\n')
+                    anchors = element.find_all('a')
+                    for anchor in anchors:
+                        href = anchor['href']
+                        if href[:1] == '/':
+                            pageNameSlash = href.rfind('/', 0, len(href) - 1)
+                            pageName = href[pageNameSlash:].replace('/', '')
+                            possibleDuplicate = href[href.rfind('/', 0, pageNameSlash):pageNameSlash].replace('/', '')
+                            if pageName == possibleDuplicate:
+                                anchor['href'] = href[:pageNameSlash]
+                                href = anchor['href']
+                        if siteName in href and 'facebook' not in href and 'File' not in href and 'Image' not in href and 'Library' not in href and 'mailto:' not in href:
+                            href = anchor['href']
+                            siteUrlEnd = href.find('/', href.find(siteName))
+                            if siteUrlEnd == -1:
+                                anchor['href'] = '/'
+                                continue
+                            pageNameSlash = href.rfind('/', 0, len(href) - 1)
+                            pageName = href[pageNameSlash:].replace('/', '')
+                            possibleDuplicate = href[href.rfind('/', 0, pageNameSlash):pageNameSlash].replace('/', '')
+                            if pageName == possibleDuplicate:
+                                anchor['href'] = href[siteUrlEnd:pageNameSlash]
+                            else:
+                                anchor['href'] = href[siteUrlEnd:]
+                    content = str(element)
+                    title = url[friendlyIndex:]
+                    try:
+                        if content != None:
+                            addPortlet(session, newUrl)
+                            submitContent(session, newUrl, content, title)
+                    except Exception, e:
+                        print str(e)
+                        print url + ' failed. Check if page is missing. Home page will not work'
+                        result.write(str(e) + '\r\n')
+                        result.write(url + ' failed. Check if page is missing. Home page will not work\r\n')
+                else:
+                    imgs = []
+                    j = 0
+                    flag = True
+                    for iappsContainer in iappsContainers:
+                        imgs.extend(iappsContainer.find_all('img'))
+                    for i in range(0, len(iappsContainers)):
+                        element = iappsContainers[i]
+                        migratedImages = getImages(session, url, newUrl, newSiteName, libraryHtml)
+                        length = 0
+                        for img in imgs:
+                            if img.has_attr('src') and (
+                                        siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
+                                length += 1
+                        for img in imgs:
+                            if img.has_attr('objectid'):
+                                del (img['objectid'])
+                            if img.has_attr('imagesiteid'):
+                                del (img['imagesiteid'])
+                            if not img.has_attr('alt') or img['alt'] == '':
+                                imgNameStart = img['src'].rfind('/') + 1
+                                img['alt'] = img['src'][imgNameStart:]
+                            if (len(migratedImages) == length or len(migratedImages) == 10) and j < 10:
+                                flag = False
+                                if img.has_attr('src') and (siteName in img['src'] or 'televox' in img['src'] or img['src'][
+                                                                                                                 :1] == '/'):  # relying on shortcircuiting to save me if no src present
+                                    img['src'] = '/common/pages/UserFile.aspx?fileId=' + migratedImages[
+                                        j]  # if even one of the image's src was fixed before; disaster, ASSUMES ORDER
+                                    j += 1
+                            else:
+                                if img.has_attr('src') and (
+                                            siteName in img['src'] or 'televox' in img['src'] or img['src'][:1] == '/'):
+                                    j += 1
+                        anchors = element.find_all('a')
+                        for anchor in anchors:
+                            href = anchor['href']
+                            if href[:1] == '/':
+                                pageNameSlash = href.rfind('/', 0, len(href) - 1)
+                                pageName = href[pageNameSlash:].replace('/', '')
+                                possibleDuplicate = href[href.rfind('/', 0, pageNameSlash):pageNameSlash].replace('/', '')
+                                if pageName == possibleDuplicate:
+                                    anchor['href'] = href[:pageNameSlash]
+                                    href = anchor['href']
+                            if siteName in href and 'facebook' not in href and 'File' not in href and 'Image' not in href and 'Library' not in href and 'mailto:' not in href:
+                                siteUrlEnd = href.find('/', href.find(siteName))
+                                if siteUrlEnd == -1:
+                                    anchor['href'] = '/'
+                                    continue
+                                pageNameSlash = href.rfind('/', 0, len(href) - 1)
+                                pageName = href[pageNameSlash:].replace('/', '')
+                                possibleDuplicate = href[href.rfind('/', 0, pageNameSlash):pageNameSlash].replace('/', '')
+                                if pageName == possibleDuplicate:
+                                    anchor['href'] = href[siteUrlEnd:pageNameSlash]
+                                else:
+                                    anchor['href'] = href[siteUrlEnd:]
+                        content = str(element)
+                        title = url[friendlyIndex:]
+                        if i > 0:
+                            title += str(i)
+                        try:
+                            if content != None:
+                                addPortlet(session, newUrl, 'content', i)
+                                submitContent(session, newUrl, content, title, i)
+                        except:
+                            print url + ' failed. Check if page is missing.'
+                            result.write(url + ' failed. Check if page is missing.\r\n')
+                    if j and flag:
+                        print str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
+                            migratedImages)
+                        result.write(str(j) + ' images were required, at ' + newUrl + ' these were the result: ' + str(
+                            migratedImages) + '\r\n')
 
 
 def getImages(session, url, newUrl, newSiteName, libraryHtml):
@@ -776,6 +776,8 @@ def getSiteContent(url, newUrl=''):
         newNameStart = newUrl.find('//') + 1
         newNameEnd = newUrl.find('.', newNameStart + 1)
         newSiteName = newUrl[newNameStart + 1: newNameEnd]
+        if 'tv01stg' in newUrl:  # for testing on staging sites
+            newSiteName += '.tv01stg'
     session = login(newUrl)
     setVerticalFlag(BeautifulSoup(session.get(newUrl).content, 'html.parser'))
     localContentSite = session.get(newUrl + '/televox/LocalPortletLibrary.aspx')
