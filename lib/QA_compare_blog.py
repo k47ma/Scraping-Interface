@@ -56,6 +56,13 @@ def compare_blog(old_soup, new_soup, old_url, new_url, browser=None, progress_va
         if post.find('img'):
             old_posts.remove(post)
 
+    # print out site information
+    if len(old_posts) == len(new_posts):
+        entry_print("Number of blog posts: " + str(len(old_posts)), True)
+    else:
+        entry_print("Number of old blog posts: " + str(len(old_posts)), True)
+        entry_print("Number of new blog posts: " + str(len(new_posts)), True)
+
     old_titles = [post.get_text() for post in old_posts]
     new_titles = [post.get_text() for post in new_posts]
 
