@@ -436,10 +436,6 @@ def addPage(session, parentUrl, title, pageName, pageType='content', redirectUrl
 
 def createSitePages(url, newUrl=''):
     'Adds all pages to a site'
-    confirm = raw_input(
-        'Are you sure you want to create pages for ' + url + '? If no, enter the letter n, lowercase, if yes enter anything else.\r\n')
-    if confirm == 'n':
-        return
     protoNameStart = url.find('.')
     if protoNameStart == url.find('.',
                                   11):  # 11 is 1st index after http://www., site name will be longer than www, if not potential bug with this

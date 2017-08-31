@@ -222,9 +222,6 @@ def changePageMeta(session, url, title='', description='', keywords=''):
 
 def getSiteMeta(url, newUrl=''):
     'Copies meta data from old site to new site'
-    content = raw_input('Are you sure you want to do meta for ' + url + '? If not, enter lowercase n\n')
-    if content == 'n':
-        return
     protoNameStart = url.find('.')
     if protoNameStart == url.find('.',
                                   11):  # 11 is 1st index after http://www., site name will be longer than www, if not potential bug with this

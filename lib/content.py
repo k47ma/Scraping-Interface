@@ -761,10 +761,6 @@ def modifyBlogPost(session, url, content='', summary='', date=''):
 
 def getSiteContent(url, newUrl=''):
     'Copies content from old site to new site'
-    confirm = raw_input(
-        'Are you sure you want to copy over the content for ' + url + '? Is there a folder for the content to be saved in? If no, enter the letter n, lowercase, if yes enter anything else.\n')
-    if confirm == 'n':
-        return
     protoNameStart = url.find('.')
     if protoNameStart == url.find('.',
                                   11):  # 11 is 1st index after http://www., site name will be longer than www, if not potential bug with this

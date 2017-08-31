@@ -220,9 +220,6 @@ def migratePageImages(session, url, siteName, newSiteName, rootFolderID):
 
 
 def migrateSiteImages(url, newUrl=''):
-    consent = raw_input('Are you sure you want to do the images for ' + url + '? If not, enter lowercase n\n')
-    if consent == 'n':
-        return
     protoNameStart = url.find('.')
     if protoNameStart == url.find('.',
                                   11):  # 11 is 1st index after http://www., site name will be longer than www, if not potential bug with this
