@@ -784,6 +784,8 @@ def getSiteContent(url, newUrl=''):
         newNameStart = newUrl.find('//') + 1
         newNameEnd = newUrl.find('.', newNameStart + 1)
         newSiteName = newUrl[newNameStart + 1: newNameEnd]
+        if 'tv01stg' in newUrl:  # for testing on staging sites
+            newSiteName += '.tv01stg'
     session = login(newUrl)
     setVerticalFlag(BeautifulSoup(session.get(newUrl).content, 'html.parser'))
     localContentSite = session.get(newUrl + '/televox/LocalPortletLibrary.aspx')

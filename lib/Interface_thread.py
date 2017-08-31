@@ -144,6 +144,12 @@ class MigrateSiteThread(threading.Thread):
 
     def run(self):
         try:
+            # print out the information for old and new sites
+            entry_print("-----------------------------------------------------", True)
+            entry_print("Old URL: " + self.old_url, True)
+            entry_print("New URL: " + self.new_url, True)
+            entry_print("-----------------------------------------------------", True)
+
             migrateSiteImages(self.old_url, self.new_url)
             createSitePages(self.old_url, self.new_url)
             getSiteContent(self.old_url, self.new_url)
@@ -173,6 +179,12 @@ class MigrateImageThread(threading.Thread):
 
     def run(self):
         try:
+            # print out the information for old and new sites
+            entry_print("-----------------------------------------------------", True)
+            entry_print("Old URL: " + self.old_url, True)
+            entry_print("New URL: " + self.new_url, True)
+            entry_print("-----------------------------------------------------", True)
+
             migrateSiteImages(self.old_url, self.new_url)
         except Exception:
             pass
@@ -199,6 +211,12 @@ class MigrateContentThread(threading.Thread):
 
     def run(self):
         try:
+            # print out the information for old and new sites
+            entry_print("-----------------------------------------------------", True)
+            entry_print("Old URL: " + self.old_url, True)
+            entry_print("New URL: " + self.new_url, True)
+            entry_print("-----------------------------------------------------", True)
+
             createSitePages(self.old_url, self.new_url)
             getSiteContent(self.old_url, self.new_url)
         except Exception:
@@ -226,6 +244,12 @@ class MigrateMetadataThread(threading.Thread):
 
     def run(self):
         try:
+            # print out the information for old and new sites
+            entry_print("-----------------------------------------------------", True)
+            entry_print("Old URL: " + self.old_url, True)
+            entry_print("New URL: " + self.new_url, True)
+            entry_print("-----------------------------------------------------", True)
+
             getSiteMeta(self.old_url, self.new_url)
         except Exception:
             pass

@@ -167,7 +167,7 @@ def download(src, name):
 
 
 def progressReporter(blockNum, blockSize, totalSize):
-    percent = int(blockNum * blockSize / totalSize * 100)
+    percent = int(blockNum * blockSize * 100 / totalSize)
     sys.stdout.write('\r' + 'Download: ' + str(percent) + '%')
     sys.stdout.flush()
 

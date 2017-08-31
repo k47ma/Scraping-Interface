@@ -223,6 +223,7 @@ def changePageMeta(session, url, title='', description='', keywords=''):
               'ctl00$ContentPlaceHolder1$ctl00$ctl00$txt_142_0': '',
               'ctl00$ContentPlaceHolder1$ctl00$ctl00$btnSubmit': 'Submit'}
     newReq = session.post(popupUrl, inputs)
+    print url + " metadata migrated!"
 
 
 def getSiteMeta(url, newUrl=''):
