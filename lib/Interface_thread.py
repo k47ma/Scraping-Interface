@@ -6,6 +6,10 @@ from QA_selenium import *
 from Migrator_subpage import migrate_subpages
 from Migrator_metadata import migrate_meta
 from Migrator_blog import migrate_blog
+from content import getSiteContent
+from meta import getSiteMeta
+from page import createSitePages
+from upload import migrateSiteImages
 
 # module for threading events
 
@@ -120,7 +124,7 @@ class MigrateBlogThread(threading.Thread):
                                         fg="green", state="normal")
         status["CHECKING_STATUS"] = False
 
-"""
+
 class MigrateSiteThread(threading.Thread):
     def __init__(self, old_url, new_url, parent):
         threading.Thread.__init__(self)
@@ -175,4 +179,3 @@ class MigrateMetadataThread(threading.Thread):
         getSiteMeta(self.old_url, self.new_url)
         self.parent.start_btn["state"] = "normal"
         status["CHECKING_STATUS"] = False
-"""
