@@ -4,6 +4,7 @@ import sys
 import urllib
 from bs4 import BeautifulSoup
 from config import settings
+from QA_util import create_path
 
 # testing method to ignore images in forms and galleries
 # testing text output of errors
@@ -11,7 +12,8 @@ from config import settings
 # testing new commands for input in the text file
 # testing support for sites that change siteName, this is already tested a bit, but bugs still could emerge
 
-result = open('uploadResult.txt',
+create_path()
+result = open('result\\uploadResult.txt',
               'w')  # lazy, easier than passing it through all functions, will correct later, I want this file open the entire time; garbage collection will close it for now, addign with for wach write will come later
 tellPos = 0  # need this to remain constant across multiple calls of the function, resetting only at the end of the file
 

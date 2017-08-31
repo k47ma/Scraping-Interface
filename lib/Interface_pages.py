@@ -92,6 +92,8 @@ class App(Tk):
         page11.grid(row=0, column=0, sticky=NSEW)
 
         self.bind("<Escape>", lambda x: self.show_frame("startpage"))
+        self.bind_class('Entry', "<Control-KeyRelease-a>", self.entry_select_all)
+        self.bind_class('Text', "<Control-KeyRelease-a>", self.text_select_all)
         self.show_frame("startpage")
 
     def show_frame(self, name):
@@ -122,6 +124,16 @@ class App(Tk):
         elif name == "page11":
             self.wm_title("QA Interface - Metadata Migration")
 
+    def entry_select_all(self, event):
+        widget = event.widget
+        widget.select_range(0, END)
+        widget.icursor(END)
+
+    def text_select_all(self, event):
+        widget = event.widget
+        widget.tag_add('sel', "1.0", END)
+        widget.see(END)
+
 
 # class for start page frame
 class StartPage(Frame):
@@ -135,14 +147,14 @@ class StartPage(Frame):
         migrate_frame_main.pack(side=TOP, fill=BOTH, expand=True, padx=10, pady=6)
 
         migrate_frame_main.columnconfigure(0, weight=1)
-        #migrate_frame_main.columnconfigure(1, weight=1)
+        migrate_frame_main.columnconfigure(1, weight=1)
         migrate_frame_main.rowconfigure(0, weight=1)
 
         migrate_frame1 = LabelFrame(migrate_frame_main, text="Migration Options with Selenium")
         migrate_frame1.grid(row=0, column=0, sticky=NSEW)
 
-        #migrate_frame2 = LabelFrame(migrate_frame_main, text="Migration Options with Python")
-        #migrate_frame2.grid(row=0, column=1, sticky=NSEW, padx=(6, 0))
+        migrate_frame2 = LabelFrame(migrate_frame_main, text="Migration Options with Python")
+        migrate_frame2.grid(row=0, column=1, sticky=NSEW, padx=(6, 0))
 
         btn_frame = Frame(self)
         btn_frame.pack(side=BOTTOM, fill=X, expand=False)
@@ -201,7 +213,6 @@ class StartPage(Frame):
         p7btn.bind("<Leave>", on_leave)
         p7btn.bind("<ButtonRelease-1>", on_enter)
 
-        """
         p8btn = Button(migrate_frame2, text="Migrate Site", width=30, height=2,
                        command=lambda: controller.show_frame("page8"))
         p8btn.pack(side=TOP, padx=5, pady=(5, 5))
@@ -229,7 +240,6 @@ class StartPage(Frame):
         p11btn.bind("<Enter>", on_enter)
         p11btn.bind("<Leave>", on_leave)
         p11btn.bind("<ButtonRelease-1>", on_enter)
-        """
 
         self.quit_icon = PhotoImage(file="image\\exit.gif")
 

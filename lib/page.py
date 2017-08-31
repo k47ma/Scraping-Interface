@@ -1,14 +1,15 @@
 import os
 import threading
 import Queue
-import time
 import requests
 from bs4 import BeautifulSoup
 from config import settings
+from QA_util import create_path
 
 verticalSite = False
 tellPos = 0
-result = open('pageResult.txt', 'w')  # garbage collection will close
+create_path()
+result = open('result\\pageResult.txt', 'w')  # garbage collection will close
 
 
 def readNextToken(fileName):
