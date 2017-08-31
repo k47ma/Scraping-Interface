@@ -4,10 +4,12 @@ import Queue
 import requests
 from bs4 import BeautifulSoup
 from config import settings
+from QA_util import create_path
 
 verticalSite = False
 exit = False
 tellPos = 0
+create_path()
 result = open('result\\contentResult.txt', 'w')
 
 def readNextToken (fileName):

@@ -4,6 +4,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from config import settings
+from QA_util import create_path
 
 #testing text output of errors
 #testing new commands for input in the text file
@@ -11,6 +12,7 @@ from config import settings
 
 exit = False
 lock = threading.Lock()
+create_path()
 result = open('result\\metaResult.txt', 'w') #lazy, easier than passing it through all functions, will correct later, I want this file open the entire time; garbage collection will close it for now, adding with for each  write will come later
 tellPos = 0
 def readNextToken (fileName):
