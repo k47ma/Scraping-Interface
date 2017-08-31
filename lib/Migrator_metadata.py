@@ -123,8 +123,9 @@ def set_meta(old_url, new_url, browser):
     new_path = urlparse(new_url).path
     if not new_path:
         new_path = "/"
-    ind = new_url.find(new_path)
-    new_path = new_url[ind:]
+    else:
+        ind = new_url.find(new_path)
+        new_path = new_url[ind:]
     migration_print(new_path + " metadata migrated!")
 
 
