@@ -160,6 +160,38 @@ class MigrateSiteThread(threading.Thread):
         status["CHECKING_STATUS"] = False
 
 
+class MigratePageThread(threading.Thread):
+    def __init__(self, old_url, new_url, parent):
+        threading.Thread.__init__(self)
+        self.old_url = old_url
+        self.new_url = new_url
+        self.parent = parent
+
+        # format the url before passing it to function
+        if not self.old_url.startswith("http://"):
+            self.old_url = "http://" + self.old_url
+        if not self.new_url.startswith("http://"):
+            self.new_url = "http://" + self.new_url
+        if not self.old_url.endswith("/"):
+            self.old_url += "/"
+        if not self.new_url.endswith("/"):
+            self.new_url += "/"
+
+    def run(self):
+        try:
+            # print out the information for old and new sites
+            entry_print("-----------------------------------------------------", True)
+            entry_print("Old URL: " + self.old_url, True)
+            entry_print("New URL: " + self.new_url, True)
+            entry_print("-----------------------------------------------------", True)
+
+            createSitePages(self.old_url, self.new_url)
+        except Exception:
+            pass
+        self.parent.start_btn["state"] = "normal"
+        status["CHECKING_STATUS"] = False
+
+
 class MigrateImageThread(threading.Thread):
     def __init__(self, old_url, new_url, parent):
         threading.Thread.__init__(self)

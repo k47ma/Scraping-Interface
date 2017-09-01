@@ -28,8 +28,8 @@ class App(Tk):
         root.iconbitmap(r'image\icon.ico')
         self.protocol("WM_DELETE_WINDOW", ask_quit)
         self.wm_title("QA Interface")
-        self.wm_geometry("1000x600")
-        self.minsize(width=500, height=300)
+        self.wm_geometry("1000x650")
+        self.minsize(width=500, height=325)
         self["cursor"] = "@main.cur"
 
         load_config()
@@ -91,6 +91,10 @@ class App(Tk):
         self.pages["page11"] = page11
         page11.grid(row=0, column=0, sticky=NSEW)
 
+        page12 = Page12(parent=container, controller=self)
+        self.pages["page12"] = page12
+        page12.grid(row=0, column=0, sticky=NSEW)
+
         self.bind("<Escape>", lambda x: self.show_frame("startpage"))
         self.bind_class('Entry', "<Control-KeyRelease-a>", self.entry_select_all)
         self.bind_class('Text', "<Control-KeyRelease-a>", self.text_select_all)
@@ -118,10 +122,12 @@ class App(Tk):
         elif name == "page8":
             self.wm_title("QA Interface - Site Migration")
         elif name == "page9":
-            self.wm_title("QA Interface - Image Migration")
+            self.wm_title("QA Interface - Create Pages")
         elif name == "page10":
-            self.wm_title("QA Interface - Content Migration")
+            self.wm_title("QA Interface - Image Migration")
         elif name == "page11":
+            self.wm_title("QA Interface - Content Migration")
+        elif name == "page12":
             self.wm_title("QA Interface - Metadata Migration")
 
     def entry_select_all(self, event):
@@ -220,26 +226,33 @@ class StartPage(Frame):
         p8btn.bind("<Leave>", on_leave)
         p8btn.bind("<ButtonRelease-1>", on_enter)
 
-        p9btn = Button(migrate_frame2, text="Migrate Images", width=30, height=2,
+        p9btn = Button(migrate_frame2, text="Create Pages", width=30, height=2,
                        command=lambda: controller.show_frame("page9"))
         p9btn.pack(side=TOP, padx=5, pady=(5, 5))
         p9btn.bind("<Enter>", on_enter)
         p9btn.bind("<Leave>", on_leave)
         p9btn.bind("<ButtonRelease-1>", on_enter)
 
-        p10btn = Button(migrate_frame2, text="Migrate Content", width=30, height=2,
+        p10btn = Button(migrate_frame2, text="Migrate Images", width=30, height=2,
                         command=lambda: controller.show_frame("page10"))
         p10btn.pack(side=TOP, padx=5, pady=(5, 5))
         p10btn.bind("<Enter>", on_enter)
         p10btn.bind("<Leave>", on_leave)
         p10btn.bind("<ButtonRelease-1>", on_enter)
 
-        p11btn = Button(migrate_frame2, text="Migrate Metadata", width=30, height=2,
+        p11btn = Button(migrate_frame2, text="Migrate Content", width=30, height=2,
                         command=lambda: controller.show_frame("page11"))
-        p11btn.pack(side=TOP, padx=5, pady=(5, 20))
+        p11btn.pack(side=TOP, padx=5, pady=(5, 5))
         p11btn.bind("<Enter>", on_enter)
         p11btn.bind("<Leave>", on_leave)
         p11btn.bind("<ButtonRelease-1>", on_enter)
+
+        p12btn = Button(migrate_frame2, text="Migrate Metadata", width=30, height=2,
+                        command=lambda: controller.show_frame("page12"))
+        p12btn.pack(side=TOP, padx=5, pady=(5, 20))
+        p12btn.bind("<Enter>", on_enter)
+        p12btn.bind("<Leave>", on_leave)
+        p12btn.bind("<ButtonRelease-1>", on_enter)
 
         self.quit_icon = PhotoImage(file="image\\exit.gif")
 
@@ -1145,8 +1158,102 @@ class Page8(Frame):
         LoginWindow(self)
 
 
-# page for image migration
+# page for pages migration
 class Page9(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+
+        frame1 = Frame(self)
+        frame1.pack(side=TOP, fill=X)
+
+        lbl1 = Label(frame1, text="Old Site", width=10)
+        lbl1.pack(side=LEFT, padx=5, pady=5, anchor=W)
+
+        self.entry1 = Entry(frame1)
+        self.entry1.pack(side=RIGHT, padx=5, fill=X, expand=True)
+        self.entry1.bind("<Key-Return>", self.start)
+        self.entry1.bind("<FocusIn>", on_focusin)
+        self.entry1.bind("<FocusOut>", on_focusout)
+
+        frame2 = Frame(self)
+        frame2.pack(side=TOP, fill=X)
+
+        lbl2 = Label(frame2, text="New Site", width=10)
+        lbl2.pack(side=LEFT, padx=5, pady=5, anchor=W)
+
+        self.entry2 = Entry(frame2)
+        self.entry2.pack(side=RIGHT, padx=5, fill=X, expand=True)
+        self.entry2.bind("<Key-Return>", self.start)
+        self.entry2.bind("<FocusIn>", on_focusin)
+        self.entry2.bind("<FocusOut>", on_focusout)
+
+        util_frame = Frame(self)
+        util_frame.pack(side=TOP, fill=X)
+
+        self.timer_frame = TimerFrame(util_frame)
+        self.timer_frame.pack(side=LEFT, anchor=CENTER)
+
+        frame3 = Frame(self)
+        frame3.pack(fill=BOTH, expand=True)
+
+        lbl3 = Label(frame3, text="Result", width=10)
+        lbl3.pack(side=LEFT, padx=5, pady=5, anchor=W)
+
+        self.result = Text(frame3)
+        self.result.pack(fill=BOTH, padx=5, pady=5, expand=True)
+
+        scrollbar = Scrollbar(self.result, command=self.result.yview)
+        scrollbar.pack(side=RIGHT, fill=Y)
+        self.result["yscrollcommand"] = scrollbar.set
+
+        frame4 = Frame(self)
+        frame4.pack(side=TOP, fill=X)
+
+        self.quit_icon = PhotoImage(file="image\\exit2.gif")
+        quit_btn = Button(frame4, text="QUIT", image=self.quit_icon, compound=LEFT, command=ask_quit, fg="red",
+                          font=("Arial", 9, "bold"))
+        quit_btn.pack(side=RIGHT, padx=6, pady=6)
+
+        self.start_icon = PhotoImage(file="image\\start.gif")
+        self.stop_btn = PhotoImage(file="image\\stop.gif")
+        self.start_btn = Button(frame4, text="START", image=self.start_icon, compound=LEFT, command=self.start,
+                                fg="#399656", font=("Arial", 9, "bold"))
+        self.start_btn.pack(side=RIGHT, padx=6, pady=6)
+
+        button3 = Button(frame4, text="<< BACK", command=lambda: controller.show_frame("startpage"))
+        button3.pack(side=LEFT, padx=5, pady=5)
+
+        setting_btn = Button(frame4, text="Login Setting...", command=self.login_setting)
+        setting_btn.pack(side=BOTTOM, padx=5, pady=5)
+
+    def start(self, *args):
+        if not self.entry1.get():
+            tkMessageBox.showinfo("URL Required", "Old URL is required!")
+            return
+
+        if not settings["USER_NAME"] or not settings["PASSWORD"]:
+            tkMessageBox.showinfo("Login Setting Required", "Please finish login setting first!")
+            return
+
+        status["CURRENT_ENTRY"] = self.result
+
+        self.result.insert(END, "-----------------------------------------------------\nStart migrating...\n")
+        thread = MigratePageThread(self.entry1.get(), self.entry2.get(), self)
+        thread.daemon = True
+
+        self.start_btn["state"] = DISABLED
+
+        self.timer_frame.checking_thread = thread
+
+        thread.start()
+        self.timer_frame.start()
+
+    def login_setting(self):
+        LoginWindow(self)
+
+
+# page for image migration
+class Page10(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
 
@@ -1240,7 +1347,7 @@ class Page9(Frame):
 
 
 # page for content migration
-class Page10(Frame):
+class Page11(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
 
@@ -1333,8 +1440,8 @@ class Page10(Frame):
         LoginWindow(self)
 
 
-# page for image migration
-class Page11(Frame):
+# page for metadata migration
+class Page12(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
 
