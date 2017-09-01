@@ -28,8 +28,8 @@ class App(Tk):
         root.iconbitmap(r'image\icon.ico')
         self.protocol("WM_DELETE_WINDOW", ask_quit)
         self.wm_title("QA Interface")
-        self.wm_geometry("1000x650")
-        self.minsize(width=500, height=325)
+        self.wm_geometry("1000x600")
+        self.minsize(width=500, height=300)
         self["cursor"] = "@main.cur"
 
         load_config()
@@ -161,6 +161,8 @@ class StartPage(Frame):
 
         migrate_frame2 = LabelFrame(migrate_frame_main, text="Migration Options with Python")
         migrate_frame2.grid(row=0, column=1, sticky=NSEW, padx=(6, 0))
+        migrate_frame2.columnconfigure(0, weight=1)
+        migrate_frame2.columnconfigure(1, weight=1)
 
         btn_frame = Frame(self)
         btn_frame.pack(side=BOTTOM, fill=X, expand=False)
@@ -200,56 +202,56 @@ class StartPage(Frame):
 
         p5btn = Button(migrate_frame1, text="Create Subpages (Essentials Only)", width=30, height=2,
                        command=lambda: controller.show_frame("page5"))
-        p5btn.pack(side=TOP, padx=5, pady=(5, 5))
+        p5btn.pack(side=TOP, padx=5, pady=5)
         p5btn.bind("<Enter>", on_enter)
         p5btn.bind("<Leave>", on_leave)
         p5btn.bind("<ButtonRelease-1>", on_enter)
 
         p6btn = Button(migrate_frame1, text="Migrate Metadata", width=30, height=2,
                        command=lambda: controller.show_frame("page6"))
-        p6btn.pack(side=TOP, padx=5, pady=(5, 5))
+        p6btn.pack(side=TOP, padx=5, pady=5)
         p6btn.bind("<Enter>", on_enter)
         p6btn.bind("<Leave>", on_leave)
         p6btn.bind("<ButtonRelease-1>", on_enter)
 
         p7btn = Button(migrate_frame1, text="Migrate Blog", width=30, height=2,
                        command=lambda: controller.show_frame("page7"))
-        p7btn.pack(side=TOP, padx=5, pady=(5, 5))
+        p7btn.pack(side=TOP, padx=5, pady=5)
         p7btn.bind("<Enter>", on_enter)
         p7btn.bind("<Leave>", on_leave)
         p7btn.bind("<ButtonRelease-1>", on_enter)
 
         p8btn = Button(migrate_frame2, text="Migrate Site", width=30, height=2,
                        command=lambda: controller.show_frame("page8"))
-        p8btn.pack(side=TOP, padx=5, pady=(5, 5))
+        p8btn.grid(row=0, column=0, columnspan=2, sticky=N+S, pady=5, padx=10)
         p8btn.bind("<Enter>", on_enter)
         p8btn.bind("<Leave>", on_leave)
         p8btn.bind("<ButtonRelease-1>", on_enter)
 
         p9btn = Button(migrate_frame2, text="Create Pages", width=30, height=2,
                        command=lambda: controller.show_frame("page9"))
-        p9btn.pack(side=TOP, padx=5, pady=(5, 5))
+        p9btn.grid(row=1, column=0, pady=5, sticky=E, padx=5)
         p9btn.bind("<Enter>", on_enter)
         p9btn.bind("<Leave>", on_leave)
         p9btn.bind("<ButtonRelease-1>", on_enter)
 
         p10btn = Button(migrate_frame2, text="Migrate Images", width=30, height=2,
                         command=lambda: controller.show_frame("page10"))
-        p10btn.pack(side=TOP, padx=5, pady=(5, 5))
+        p10btn.grid(row=1, column=1, sticky=W, pady=5, padx=5)
         p10btn.bind("<Enter>", on_enter)
         p10btn.bind("<Leave>", on_leave)
         p10btn.bind("<ButtonRelease-1>", on_enter)
 
         p11btn = Button(migrate_frame2, text="Migrate Content", width=30, height=2,
                         command=lambda: controller.show_frame("page11"))
-        p11btn.pack(side=TOP, padx=5, pady=(5, 5))
+        p11btn.grid(row=2, column=0, sticky=E, pady=5, padx=5)
         p11btn.bind("<Enter>", on_enter)
         p11btn.bind("<Leave>", on_leave)
         p11btn.bind("<ButtonRelease-1>", on_enter)
 
         p12btn = Button(migrate_frame2, text="Migrate Metadata", width=30, height=2,
                         command=lambda: controller.show_frame("page12"))
-        p12btn.pack(side=TOP, padx=5, pady=(5, 20))
+        p12btn.grid(row=2, column=1, sticky=W, pady=5, padx=5)
         p12btn.bind("<Enter>", on_enter)
         p12btn.bind("<Leave>", on_leave)
         p12btn.bind("<ButtonRelease-1>", on_enter)
